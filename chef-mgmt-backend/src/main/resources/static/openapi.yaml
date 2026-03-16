@@ -1,0 +1,6 @@
+openapi: 3.0.1
+info:
+  title: chef-mgmt API
+  version: "1.0"
+  description: chef-mgmt app endpoints
+paths: { }

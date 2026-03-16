@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: chef-mgmt-backend
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
+server:
+  port: 8777
+  servlet:
+    context-path: /api
