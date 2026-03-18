@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: chef-mgmt-backend
-server:
-  port: 8777
-  servlet:
-    context-path: /api
