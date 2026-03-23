@@ -13,6 +13,9 @@ public enum ExceptionCode {
     // Chef Errors
     CHEF_NOT_FOUND("Chef %s not found.", "ERR_2001"),
     EMAIL_TAKEN("Email %s is already taken.", "ERR_2002"),
+    
+    // Order Errors
+    ORDER_NOT_FOUND("Order %s not found.", "ERR_3001"),
 
     // Server Errors
     SERVER_ERROR("Internal server error.", "ERR_5000");

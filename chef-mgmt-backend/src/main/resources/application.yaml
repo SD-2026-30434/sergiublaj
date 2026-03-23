@@ -1,6 +1,18 @@
 spring:
   application:
     name: chef-mgmt-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chef_mgmt_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    open-in-view: false
+  sql:
+    init:
+      mode: always
 server:
   port: 8777
   servlet:

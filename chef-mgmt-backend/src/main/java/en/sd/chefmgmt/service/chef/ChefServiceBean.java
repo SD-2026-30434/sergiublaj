@@ -10,10 +10,14 @@ import en.sd.chefmgmt.exception.ExceptionCode;
 import en.sd.chefmgmt.mapper.ChefMapper;
 import en.sd.chefmgmt.model.ChefEntity;
 import en.sd.chefmgmt.repository.chef.ChefRepository;
+import en.sd.chefmgmt.repository.chef.ChefSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,29 +28,33 @@ public class ChefServiceBean implements ChefService {
     private final ChefMapper chefMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public CollectionResponseDTO<ChefResponseDTO> findAll(ChefFilterDTO filter) {
-        long totalElements = chefRepository.count(filter);
-        List<ChefEntity> page = chefRepository.findAll(filter);
-        long totalPages = filter.pageSize() > 0 ? (totalElements + filter.pageSize() - 1) / filter.pageSize() : 0;
+        Specification<ChefEntity> specification = buildSpecification(filter);
+        Page<ChefEntity> page = chefRepository.findAll(
+                specification,
+                PageRequest.of(filter.pageNumber(), filter.pageSize(), ChefSpecification.bySort(filter.sortBy(), filter.sortDirection()))
+        );
 
         return CollectionResponseDTO.<ChefResponseDTO>builder()
                 .pageNumber(filter.pageNumber())
                 .pageSize(filter.pageSize())
-                .totalPages(totalPages)
-                .totalElements(totalElements)
-                .elements(chefMapper.convertEntitiesToResponseDtos(page))
+                .totalPages(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .elements(chefMapper.convertEntitiesToResponseDtos(page.getContent()))
                 .build();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ChefResponseDTO findById(UUID id) {
-        ChefEntity chefEntity = chefRepository.findById(id)
+        return chefRepository.findById(id)
+                .map(chefMapper::convertEntityToResponseDto)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, id));
-
-        return chefMapper.convertEntityToResponseDto(chefEntity);
     }
 
     @Override
+    @Transactional
     public ChefResponseDTO save(ChefRequestDTO chefRequestDTO) {
         if (chefRepository.existsByEmail(chefRequestDTO.email())) {
             throw new DuplicateDataException(ExceptionCode.EMAIL_TAKEN, chefRequestDTO.email());
@@ -59,6 +67,7 @@ public class ChefServiceBean implements ChefService {
     }
 
     @Override
+    @Transactional
     public ChefResponseDTO update(UUID id, ChefRequestDTO chefRequestDTO) {
         ChefEntity existing = chefRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, id));
@@ -73,11 +82,16 @@ public class ChefServiceBean implements ChefService {
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
         if (chefRepository.findById(id).isEmpty()) {
             throw new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, id);
         }
 
         chefRepository.deleteById(id);
+    }
+
+    private Specification<ChefEntity> buildSpecification(ChefFilterDTO filter) {
+        return ChefSpecification.byFilter(filter);
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/chefs")
+@RequestMapping("/chefs/v1")
 @Slf4j
 @RequiredArgsConstructor
 public class ChefControllerBean implements ChefController {
