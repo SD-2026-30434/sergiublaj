@@ -9,12 +9,15 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ChefRepository extends JpaRepository<ChefEntity, UUID>, JpaSpecificationExecutor<ChefEntity> {
 
-    @EntityGraph(attributePaths = "orders")
     Page<ChefEntity> findAll(@NonNull Specification<ChefEntity> spec, @NonNull Pageable pageable);
+
+    @EntityGraph(attributePaths = "orders")
+    Optional<ChefEntity> findById(UUID id);
 
     boolean existsByEmail(String email);
 

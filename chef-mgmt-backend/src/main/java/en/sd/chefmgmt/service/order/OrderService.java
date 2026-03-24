@@ -11,11 +11,13 @@ public interface OrderService {
 
     CollectionResponseDTO<OrderResponseDTO> findAll(OrderFilterDTO filter);
 
+    CollectionResponseDTO<OrderResponseDTO> findAllByChefId(UUID chefId, OrderFilterDTO filter);
+
     OrderResponseDTO findById(UUID id);
 
-    OrderResponseDTO save(OrderRequestDTO orderRequestDTO);
+    OrderResponseDTO save(UUID chefId, OrderRequestDTO orderRequestDTO);
 
-    OrderResponseDTO update(UUID id, OrderRequestDTO orderRequestDTO);
+    OrderResponseDTO update(UUID chefId, UUID id, OrderRequestDTO orderRequestDTO);
 
-    void delete(UUID id);
+    void delete(UUID chefId, UUID id);
 }

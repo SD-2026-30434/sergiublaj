@@ -2,7 +2,6 @@ package en.sd.chefmgmt.controller.order;
 
 import en.sd.chefmgmt.dto.CollectionResponseDTO;
 import en.sd.chefmgmt.dto.order.OrderFilterDTO;
-import en.sd.chefmgmt.dto.order.OrderRequestDTO;
 import en.sd.chefmgmt.dto.order.OrderResponseDTO;
 import en.sd.chefmgmt.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -32,26 +31,5 @@ public class OrderControllerBean implements OrderController {
         log.info("[ORDER] Finding order by id: {}", id);
 
         return orderService.findById(id);
-    }
-
-    @Override
-    public OrderResponseDTO save(OrderRequestDTO orderRequestDTO) {
-        log.info("[ORDER] Saving order: {}", orderRequestDTO);
-
-        return orderService.save(orderRequestDTO);
-    }
-
-    @Override
-    public OrderResponseDTO update(UUID id, OrderRequestDTO orderRequestDTO) {
-        log.info("[ORDER] Updating order with id {}: {}", id, orderRequestDTO);
-
-        return orderService.update(id, orderRequestDTO);
-    }
-
-    @Override
-    public void delete(UUID id) {
-        log.info("[ORDER] Deleting order: {}", id);
-
-        orderService.delete(id);
     }
 }

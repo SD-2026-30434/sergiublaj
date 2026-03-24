@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record ChefResponseDTO(
+public record ChefWithOrdersResponseDTO(
         UUID id,
         String name,
         String email,

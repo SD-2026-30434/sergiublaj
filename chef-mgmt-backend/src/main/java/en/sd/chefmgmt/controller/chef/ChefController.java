@@ -3,7 +3,8 @@ package en.sd.chefmgmt.controller.chef;
 import en.sd.chefmgmt.dto.CollectionResponseDTO;
 import en.sd.chefmgmt.dto.chef.ChefFilterDTO;
 import en.sd.chefmgmt.dto.chef.ChefRequestDTO;
-import en.sd.chefmgmt.dto.chef.ChefResponseDTO;
+import en.sd.chefmgmt.dto.chef.ChefWithOrdersResponseDTO;
+import en.sd.chefmgmt.dto.chef.ChefWithoutOrdersResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,41 +37,41 @@ public interface ChefController {
             @ApiResponse(responseCode = "400", description = "Invalid filter parameters")
     })
     @ResponseStatus(HttpStatus.OK)
-    CollectionResponseDTO<ChefResponseDTO> findAll(@Validated ChefFilterDTO chefFilterDTO);
+    CollectionResponseDTO<ChefWithoutOrdersResponseDTO> findAll(@Validated ChefFilterDTO chefFilterDTO);
 
     @GetMapping("/{id}")
     @Operation(summary = "Get a chef by ID", description = "Retrieve a chef's details using their unique ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Chef found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ChefResponseDTO.class))),
+                            schema = @Schema(implementation = ChefWithOrdersResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Chef not found")
     })
     @ResponseStatus(HttpStatus.OK)
-    ChefResponseDTO findById(@PathVariable(name = "id") UUID id);
+    ChefWithOrdersResponseDTO findById(@PathVariable(name = "id") UUID id);
 
     @PostMapping
     @Operation(summary = "Create a new chef", description = "Add a new chef with the provided details.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Chef created successfully",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ChefResponseDTO.class))),
+                            schema = @Schema(implementation = ChefWithOrdersResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body")
     })
     @ResponseStatus(HttpStatus.CREATED)
-    ChefResponseDTO save(@RequestBody @Valid ChefRequestDTO chefRequestDTO);
+    ChefWithOrdersResponseDTO save(@RequestBody @Valid ChefRequestDTO chefRequestDTO);
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a chef", description = "Modify an existing chef's details using their ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Chef updated successfully",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ChefResponseDTO.class))),
+                            schema = @Schema(implementation = ChefWithOrdersResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "Chef not found"),
             @ApiResponse(responseCode = "400", description = "Invalid request body")
     })
     @ResponseStatus(HttpStatus.OK)
-    ChefResponseDTO update(@PathVariable(name = "id") UUID id, @RequestBody @Valid ChefRequestDTO chefRequestDTO);
+    ChefWithOrdersResponseDTO update(@PathVariable(name = "id") UUID id, @RequestBody @Valid ChefRequestDTO chefRequestDTO);
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a chef", description = "Remove a chef from the system using their ID.")

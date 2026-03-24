@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 public record OrderRequestDTO(
         @NotBlank(message = "Item name is required and cannot be empty.")
@@ -18,8 +17,5 @@ public record OrderRequestDTO(
         Double totalPrice,
 
         @NotNull(message = "Order date is required.")
-        ZonedDateTime orderedAt,
-
-        @NotNull(message = "Chef id is required.")
-        UUID chefId
+        ZonedDateTime orderedAt
 ) { }

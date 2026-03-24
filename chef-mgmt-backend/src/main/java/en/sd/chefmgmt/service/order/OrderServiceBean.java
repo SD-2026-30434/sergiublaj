@@ -47,6 +47,27 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    public CollectionResponseDTO<OrderResponseDTO> findAllByChefId(UUID chefId, OrderFilterDTO filter) {
+        if (chefRepository.findById(chefId).isEmpty()) {
+            throw new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, chefId);
+        }
+
+        Page<OrderEntity> page = orderRepository.findAll(
+                OrderSpecification.byFilterAndChefId(filter, chefId),
+                PageRequest.of(filter.pageNumber(), filter.pageSize(), OrderSpecification.bySort(filter.sortBy(), filter.sortDirection()))
+        );
+
+        return CollectionResponseDTO.<OrderResponseDTO>builder()
+                .pageNumber(filter.pageNumber())
+                .pageSize(filter.pageSize())
+                .totalPages(page.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .elements(orderMapper.convertEntitiesToResponseDtos(page.getContent()))
+                .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public OrderResponseDTO findById(UUID id) {
         return orderRepository.findById(id)
                 .map(orderMapper::convertEntityToResponseDto)
@@ -55,9 +76,9 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponseDTO save(OrderRequestDTO orderRequestDTO) {
-        ChefEntity chefEntity = chefRepository.findById(orderRequestDTO.chefId())
-                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, orderRequestDTO.chefId()));
+    public OrderResponseDTO save(UUID chefId, OrderRequestDTO orderRequestDTO) {
+        ChefEntity chefEntity = chefRepository.findById(chefId)
+                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, chefId));
 
         OrderEntity toAdd = orderMapper.convertRequestDtoToEntity(orderRequestDTO, chefEntity);
         OrderEntity added = orderRepository.save(toAdd);
@@ -67,22 +88,22 @@ public class OrderServiceBean implements OrderService {
 
     @Override
     @Transactional
-    public OrderResponseDTO update(UUID id, OrderRequestDTO orderRequestDTO) {
+    public OrderResponseDTO update(UUID chefId, UUID id, OrderRequestDTO orderRequestDTO) {
         OrderEntity existing = orderRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.ORDER_NOT_FOUND, id));
-        ChefEntity chefEntity = chefRepository.findById(orderRequestDTO.chefId())
-                .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, orderRequestDTO.chefId()));
+        if (chefRepository.findById(chefId).isEmpty()) {
+            throw new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, chefId);
+        }
 
         orderMapper.updateOrderEntity(existing, orderRequestDTO);
-        existing.setChef(chefEntity);
 
         return orderMapper.convertEntityToResponseDto(existing);
     }
 
     @Override
     @Transactional
-    public void delete(UUID id) {
-        if (orderRepository.findById(id).isEmpty()) {
+    public void delete(UUID chefId, UUID id) {
+        if (!orderRepository.existsByIdAndChefId(id, chefId)) {
             throw new DataNotFoundException(ExceptionCode.ORDER_NOT_FOUND, id);
         }
 

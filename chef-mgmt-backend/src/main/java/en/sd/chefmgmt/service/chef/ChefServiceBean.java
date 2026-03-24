@@ -3,7 +3,8 @@ package en.sd.chefmgmt.service.chef;
 import en.sd.chefmgmt.dto.CollectionResponseDTO;
 import en.sd.chefmgmt.dto.chef.ChefFilterDTO;
 import en.sd.chefmgmt.dto.chef.ChefRequestDTO;
-import en.sd.chefmgmt.dto.chef.ChefResponseDTO;
+import en.sd.chefmgmt.dto.chef.ChefWithOrdersResponseDTO;
+import en.sd.chefmgmt.dto.chef.ChefWithoutOrdersResponseDTO;
 import en.sd.chefmgmt.exception.DataNotFoundException;
 import en.sd.chefmgmt.exception.DuplicateDataException;
 import en.sd.chefmgmt.exception.ExceptionCode;
@@ -29,25 +30,25 @@ public class ChefServiceBean implements ChefService {
 
     @Override
     @Transactional(readOnly = true)
-    public CollectionResponseDTO<ChefResponseDTO> findAll(ChefFilterDTO filter) {
+    public CollectionResponseDTO<ChefWithoutOrdersResponseDTO> findAll(ChefFilterDTO filter) {
         Specification<ChefEntity> specification = buildSpecification(filter);
         Page<ChefEntity> page = chefRepository.findAll(
                 specification,
                 PageRequest.of(filter.pageNumber(), filter.pageSize(), ChefSpecification.bySort(filter.sortBy(), filter.sortDirection()))
         );
 
-        return CollectionResponseDTO.<ChefResponseDTO>builder()
+        return CollectionResponseDTO.<ChefWithoutOrdersResponseDTO>builder()
                 .pageNumber(filter.pageNumber())
                 .pageSize(filter.pageSize())
                 .totalPages(page.getTotalPages())
                 .totalElements(page.getTotalElements())
-                .elements(chefMapper.convertEntitiesToResponseDtos(page.getContent()))
+                .elements(chefMapper.convertEntitiesToWithoutOrdersResponseDtos(page.getContent()))
                 .build();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ChefResponseDTO findById(UUID id) {
+    public ChefWithOrdersResponseDTO findById(UUID id) {
         return chefRepository.findById(id)
                 .map(chefMapper::convertEntityToResponseDto)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, id));
@@ -55,7 +56,7 @@ public class ChefServiceBean implements ChefService {
 
     @Override
     @Transactional
-    public ChefResponseDTO save(ChefRequestDTO chefRequestDTO) {
+    public ChefWithOrdersResponseDTO save(ChefRequestDTO chefRequestDTO) {
         if (chefRepository.existsByEmail(chefRequestDTO.email())) {
             throw new DuplicateDataException(ExceptionCode.EMAIL_TAKEN, chefRequestDTO.email());
         }
@@ -68,7 +69,7 @@ public class ChefServiceBean implements ChefService {
 
     @Override
     @Transactional
-    public ChefResponseDTO update(UUID id, ChefRequestDTO chefRequestDTO) {
+    public ChefWithOrdersResponseDTO update(UUID id, ChefRequestDTO chefRequestDTO) {
         ChefEntity existing = chefRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, id));
 
