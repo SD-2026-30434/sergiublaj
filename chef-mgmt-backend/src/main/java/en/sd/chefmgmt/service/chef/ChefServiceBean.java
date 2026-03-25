@@ -31,7 +31,7 @@ public class ChefServiceBean implements ChefService {
     @Override
     @Transactional(readOnly = true)
     public CollectionResponseDTO<ChefWithoutOrdersResponseDTO> findAll(ChefFilterDTO filter) {
-        Specification<ChefEntity> specification = buildSpecification(filter);
+        Specification<ChefEntity> specification = ChefSpecification.byFilter(filter);
         Page<ChefEntity> page = chefRepository.findAll(
                 specification,
                 PageRequest.of(filter.pageNumber(), filter.pageSize(), ChefSpecification.bySort(filter.sortBy(), filter.sortDirection()))
@@ -90,9 +90,5 @@ public class ChefServiceBean implements ChefService {
         }
 
         chefRepository.deleteById(id);
-    }
-
-    private Specification<ChefEntity> buildSpecification(ChefFilterDTO filter) {
-        return ChefSpecification.byFilter(filter);
     }
 }
