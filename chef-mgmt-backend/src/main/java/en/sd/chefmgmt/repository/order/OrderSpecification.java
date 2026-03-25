@@ -47,7 +47,7 @@ public final class OrderSpecification {
                 ? "id"
                 : switch (sortBy.toLowerCase()) {
             case "itemname" -> "itemName";
-            case "totalprice" -> s"totalPrice";
+            case "totalprice" -> "totalPrice";
             case "orderedat" -> "orderedAt";
             case "chefid" -> "chef.id";
             default -> "id";
