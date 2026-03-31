@@ -16,6 +16,7 @@ public interface ChefMapper extends DtoMapper<ChefEntity, ChefRequestDTO, ChefWi
     @Override
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "userAccount", ignore = true)
     ChefEntity convertRequestDtoToEntity(ChefRequestDTO requestDto);
 
     @Override
@@ -29,5 +30,6 @@ public interface ChefMapper extends DtoMapper<ChefEntity, ChefRequestDTO, ChefWi
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "orders", ignore = true)
+    @Mapping(target = "userAccount", ignore = true)
     void updateChefEntity(@MappingTarget ChefEntity chefEntity, ChefRequestDTO chefRequestDTO);
 }

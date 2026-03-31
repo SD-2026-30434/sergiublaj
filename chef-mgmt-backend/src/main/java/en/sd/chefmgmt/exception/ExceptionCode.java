@@ -17,6 +17,11 @@ public enum ExceptionCode {
     // Order Errors
     ORDER_NOT_FOUND("Order %s not found.", "ERR_3001"),
 
+    // Authorization
+    ACCESS_DENIED("You are not allowed to perform this action.", "ERR_4001"),
+    INVALID_CREDENTIALS("Invalid credentials.", "ERR_4002"),
+    MISSING_CREDENTIALS("Email and password are required.", "ERR_4003"),
+
     // Server Errors
     SERVER_ERROR("Internal server error.", "ERR_5000");
 

@@ -8,6 +8,7 @@ import en.sd.chefmgmt.dto.chef.ChefWithoutOrdersResponseDTO;
 import en.sd.chefmgmt.service.chef.ChefService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ public class ChefControllerBean implements ChefController {
     private final ChefService chefService;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public CollectionResponseDTO<ChefWithoutOrdersResponseDTO> findAll(ChefFilterDTO chefFilterDTO) {
         log.info("[CHEF] Finding all chefs: {}", chefFilterDTO);
 
@@ -29,6 +31,7 @@ public class ChefControllerBean implements ChefController {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CHEF') and @authz.isOwnChef(#id))")
     public ChefWithOrdersResponseDTO findById(UUID id) {
         log.info("[CHEF] Finding chef by id: {}", id);
 
@@ -36,6 +39,7 @@ public class ChefControllerBean implements ChefController {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public ChefWithOrdersResponseDTO save(ChefRequestDTO chefRequestDTO) {
         log.info("[CHEF] Saving chef: {}", chefRequestDTO);
 
@@ -43,6 +47,7 @@ public class ChefControllerBean implements ChefController {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CHEF') and @authz.isOwnChef(#id))")
     public ChefWithOrdersResponseDTO update(UUID id, ChefRequestDTO chefRequestDTO) {
         log.info("[CHEF] Updating chef: {}", chefRequestDTO);
 
@@ -50,6 +55,7 @@ public class ChefControllerBean implements ChefController {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(UUID id) {
         log.info("[CHEF] Deleting chef: {}", id);
 

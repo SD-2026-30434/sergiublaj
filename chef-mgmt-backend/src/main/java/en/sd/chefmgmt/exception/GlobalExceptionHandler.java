@@ -1,6 +1,7 @@
 package en.sd.chefmgmt.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,7 +27,7 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toMap(
                         FieldError::getField,
                         error -> Objects.requireNonNullElse(error.getDefaultMessage(), DEFAULT_ERROR_MESSAGE),
-                        (existing, replacement) -> existing
+                        (existing, _) -> existing
                 ));
 
         return ExceptionBody.builder()
@@ -48,6 +49,12 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ExceptionBody handleAccessDenied(AccessDeniedException ignored) {
+        return ExceptionBody.of(ExceptionCode.ACCESS_DENIED);
+    }
+
     @ExceptionHandler(DuplicateDataException.class)
     @ResponseStatus(value = HttpStatus.CONFLICT)
     public ExceptionBody handleDuplicateData(DuplicateDataException exception) {
@@ -65,7 +72,7 @@ public class GlobalExceptionHandler {
         return ExceptionBody.builder()
                 .timestamp(ZonedDateTime.now())
                 .code(ExceptionCode.SERVER_ERROR.getCode())
-                .message("An unexpected error occurred: " + exception.getMessage())
+                .message(ExceptionCode.SERVER_ERROR.getMessage() + " " + exception.getMessage())
                 .details(Collections.emptyMap())
                 .build();
     }

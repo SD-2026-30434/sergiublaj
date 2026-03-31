@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.time.ZonedDateTime;
@@ -46,4 +47,7 @@ public class ChefEntity {
 
     @OneToMany(mappedBy = "chef", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orders = new ArrayList<>();
+
+    @OneToOne(mappedBy = "chef")
+    private UserEntity userAccount;
 }

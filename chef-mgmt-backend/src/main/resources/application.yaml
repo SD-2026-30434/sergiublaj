@@ -17,3 +17,10 @@ server:
   port: 8777
   servlet:
     context-path: /api
+app:
+  jwt:
+    secret: SD-2026-30434-SUPERCALIFRAGILISTICEXPIALIDOCIOUS
+    expiration-minutes: 60
+  security:
+    login-url: /auth/v1/login
+    allowed-urls: /swagger-ui/**,/swagger-ui.html,/v3/api-docs/**,/v3/api-docs.yaml,/error
