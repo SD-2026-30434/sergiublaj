@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { Store } from '@ngxs/store';
 import { AppRoutes } from '../../../../core/models/app-routes.enum';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -8,11 +9,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { ToastService } from '../../../../core/services/toast.service';
 import { Chef } from '../../models/chef.model';
 import { ChefRequest } from '../../models/chef-request.model';
 import { ChefFilter } from '../../models/chef-filter.model';
-import { ChefService } from '../../services/chef.service';
+import { SortDirection } from '../../../../core/models/sort-direction.enum';
+import { ChefState } from '../../store/chef.state';
+import { LoadChefs, CreateChef, UpdateChef, DeleteChef } from '../../store/chef.actions';
 import { CollectionResponse } from '../../../../shared/models/collection.model';
 import { ChefFormComponent } from '../../modals/chef-form/chef-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
@@ -22,7 +24,7 @@ import { BaseListComponent } from '../../../../shared/components/base-list/base-
   selector: 'app-chef-list',
   standalone: true,
   imports: [
-    CommonModule, TableModule, ButtonModule, ToolbarModule,
+    DatePipe, DecimalPipe, TableModule, ButtonModule, ToolbarModule,
     InputTextModule, TagModule, IconFieldModule, InputIconModule,
     ChefFormComponent, DeleteModalComponent
   ],
@@ -30,8 +32,7 @@ import { BaseListComponent } from '../../../../shared/components/base-list/base-
   styleUrl: './chef-list.component.scss'
 })
 export class ChefListComponent extends BaseListComponent {
-  private readonly chefService = inject(ChefService);
-  private readonly toastService = inject(ToastService);
+  private readonly store = inject(Store);
 
   result!: CollectionResponse<Chef>;
   chefs: Chef[] = [];
@@ -51,18 +52,14 @@ export class ChefListComponent extends BaseListComponent {
   }
 
   viewChef(chef: Chef): void {
-    this.router.navigate([AppRoutes.CHEFS, chef.id]).then();
+    this.router.navigate([`/${AppRoutes.CHEFS}`, chef.id]).then();
   }
 
   onSave(request: ChefRequest): void {
-    if (this.selectedChef) {
-      this.chefService.update(this.selectedChef.id, request);
-      this.toastService.showSuccess('Chef updated');
-    } else {
-      this.chefService.create(request);
-      this.toastService.showSuccess('Chef created');
-    }
-    this.loadData();
+    const action = this.selectedChef
+      ? new UpdateChef(this.selectedChef.id, request)
+      : new CreateChef(request);
+    this.store.dispatch(action).subscribe(() => this.loadData());
   }
 
   openDeleteModal(chef: Chef): void {
@@ -74,21 +71,23 @@ export class ChefListComponent extends BaseListComponent {
     if (!this.chefToDelete) {
       return;
     }
-    this.chefService.delete(this.chefToDelete.id);
-    this.toastService.showSuccess(`${ this.chefToDelete.name } removed`);
-    this.chefToDelete = null;
-    this.loadData();
+    this.store.dispatch(new DeleteChef(this.chefToDelete.id)).subscribe(() => {
+      this.chefToDelete = null;
+      this.loadData();
+    });
   }
 
   protected override loadData(): void {
     const filter: ChefFilter = {
       name: this.search || undefined,
       sortBy: this.sortField || undefined,
-      sortDirection: this.sortOrder === -1 ? 'desc' : 'asc',
+      sortDirection: this.sortOrder === -1 ? SortDirection.DESC : SortDirection.ASC,
       pageNumber: this.page,
       pageSize: this.rows
     };
-    this.result = this.chefService.getAll(filter);
-    this.chefs = this.result.elements;
+    this.store.dispatch(new LoadChefs(filter)).subscribe(() => {
+      this.result = this.store.selectSnapshot(ChefState.chefs)!;
+      this.chefs = this.result?.elements ?? [];
+    });
   }
 }

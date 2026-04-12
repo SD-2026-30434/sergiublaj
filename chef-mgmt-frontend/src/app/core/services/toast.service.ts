@@ -12,4 +12,12 @@ export class ToastService {
       detail: message
     });
   }
+
+  showError(message: string): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message
+    });
+  }
 }

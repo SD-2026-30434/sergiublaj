@@ -2,7 +2,7 @@
   [header]="order ? 'Edit Order' : 'New Order'"
   [(visible)]="visible"
   [modal]="true"
-  [style]="{ width: '450px' }"
+  styleClass="form-dialog"
   (onHide)="onCancel()"
 >
   <form [formGroup]="form" (ngSubmit)="onSubmit()">

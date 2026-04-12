@@ -1,0 +1,29 @@
+<div class="flex align-items-center justify-content-center min-h-screen">
+  <p-card header="Sign In" class="w-full login-card">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="flex flex-column gap-3">
+        @if (error$ | async; as error) {
+          <div class="p-3 border-round bg-red-50 text-red-700">
+            {{ error }}
+          </div>
+        }
+        <div class="flex flex-column gap-2">
+          <label for="email">Email</label>
+          <input pInputText id="email" formControlName="email" placeholder="Email" class="w-full" />
+        </div>
+        <div class="flex flex-column gap-2">
+          <label for="password">Password</label>
+          <p-password id="password" formControlName="password" placeholder="Password" [toggleMask]="true" [feedback]="false" styleClass="w-full" inputStyleClass="w-full" />
+        </div>
+        <p-button
+          type="submit"
+          label="Sign In"
+          icon="pi pi-sign-in"
+          [loading]="(loading$ | async) ?? false"
+          [disabled]="!form.valid"
+          styleClass="w-full"
+        />
+      </div>
+    </form>
+  </p-card>
+</div>

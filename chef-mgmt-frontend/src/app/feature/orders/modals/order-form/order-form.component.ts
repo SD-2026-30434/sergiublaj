@@ -1,5 +1,4 @@
 import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output } from '@angular/core';
-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,7 +12,8 @@ import { OrderRequest } from '../../models/order-request.model';
   selector: 'app-order-form',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, InputTextModule, InputNumberModule, DatePickerModule, ButtonModule],
-  templateUrl: './order-form.component.html'
+  templateUrl: './order-form.component.html',
+  styleUrl: './order-form.component.scss'
 })
 export class OrderFormComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);

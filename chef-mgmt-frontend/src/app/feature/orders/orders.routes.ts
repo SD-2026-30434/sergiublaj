@@ -8,6 +8,6 @@ export const ordersRoutes: Routes = [
   },
   {
     path: AppRoutes.ANY,
-    redirectTo: AppRoutes.DASHBOARD
+    redirectTo: AppRoutes.EMPTY
   }
 ];

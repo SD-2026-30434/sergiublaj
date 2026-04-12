@@ -1,5 +1,4 @@
 import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output } from '@angular/core';
-
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,7 +12,8 @@ import { ChefRequest } from '../../models/chef-request.model';
   selector: 'app-chef-form',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, InputTextModule, InputNumberModule, DatePickerModule, ButtonModule],
-  templateUrl: './chef-form.component.html'
+  templateUrl: './chef-form.component.html',
+  styleUrl: './chef-form.component.scss'
 })
 export class ChefFormComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);

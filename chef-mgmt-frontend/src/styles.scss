@@ -8,3 +8,28 @@ body {
 .app-content {
   max-width: 1200px;
 }
+
+.form-dialog {
+  width: 450px;
+}
+
+.delete-dialog {
+  width: 400px;
+}
+
+.actions-col {
+  width: 8rem;
+}
+
+.actions-col-wide {
+  width: 12rem;
+}
+
+.chef-avatar .p-avatar {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+}
+
+.order-chef-filter {
+  min-width: 200px;
+}

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Params, RouterModule } from '@angular/router';
+import { Store } from '@ngxs/store';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -10,13 +11,14 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { AppRoutes } from '../../../../core/models/app-routes.enum';
-import { ToastService } from '../../../../core/services/toast.service';
 import { Order } from '../../models/order.model';
 import { OrderRequest } from '../../models/order-request.model';
 import { OrderFilter } from '../../models/order-filter.model';
-import { Chef } from '../../../chefs/models/chef.model';
-import { OrderService } from '../../services/order.service';
-import { ChefService } from '../../../chefs/services/chef.service';
+import { SortDirection } from '../../../../core/models/sort-direction.enum';
+import { ChefState } from '../../../chefs/store/chef.state';
+import { OrderState } from '../../store/order.state';
+import { LoadChefs } from '../../../chefs/store/chef.actions';
+import { LoadOrders, UpdateOrder, DeleteOrder } from '../../store/order.actions';
 import { CollectionResponse } from '../../../../shared/models/collection.model';
 import { OrderFormComponent } from '../../modals/order-form/order-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
@@ -26,7 +28,7 @@ import { BaseListComponent } from '../../../../shared/components/base-list/base-
   selector: 'app-order-list',
   standalone: true,
   imports: [
-    CommonModule, RouterModule, TableModule, ButtonModule, ToolbarModule,
+    CurrencyPipe, DatePipe, RouterModule, TableModule, ButtonModule, ToolbarModule,
     InputTextModule, SelectModule, IconFieldModule, InputIconModule,
     ReactiveFormsModule, OrderFormComponent, DeleteModalComponent
   ],
@@ -36,9 +38,7 @@ import { BaseListComponent } from '../../../../shared/components/base-list/base-
 export class OrderListComponent extends BaseListComponent {
   readonly AppRoutes = AppRoutes;
 
-  private readonly orderService = inject(OrderService);
-  private readonly chefService = inject(ChefService);
-  private readonly toastService = inject(ToastService);
+  private readonly store = inject(Store);
 
   result!: CollectionResponse<Order>;
   orders: Order[] = [];
@@ -48,12 +48,12 @@ export class OrderListComponent extends BaseListComponent {
   chefOptions: { label: string; value: string }[] = [];
   deleteModalVisible = false;
   orderToDelete: Order | null = null;
-  private chefsMap = new Map<string, Chef>();
 
   override ngOnInit(): void {
-    const chefsResult = this.chefService.getAll({ pageSize: 1000 });
-    chefsResult.elements.forEach(chef => this.chefsMap.set(chef.id, chef));
-    this.chefOptions = chefsResult.elements.map(chef => ({ label: chef.name, value: chef.id }));
+    this.store.dispatch(new LoadChefs({ pageSize: 1000 })).subscribe(() => {
+      const chefsResult = this.store.selectSnapshot(ChefState.chefs);
+      this.chefOptions = (chefsResult?.elements ?? []).map(chef => ({ label: chef.name, value: chef.id }));
+    });
     super.ngOnInit();
   }
 
@@ -68,9 +68,8 @@ export class OrderListComponent extends BaseListComponent {
 
   onSave(request: OrderRequest): void {
     if (this.selectedOrder) {
-      this.orderService.update(this.selectedOrder.chefId, this.selectedOrder.id, request);
-      this.toastService.showSuccess('Order updated');
-      this.loadData();
+      this.store.dispatch(new UpdateOrder(this.selectedOrder.chefId, this.selectedOrder.id, request))
+        .subscribe(() => this.loadData());
     }
   }
 
@@ -83,10 +82,11 @@ export class OrderListComponent extends BaseListComponent {
     if (!this.orderToDelete) {
       return;
     }
-    this.orderService.delete(this.orderToDelete.chefId, this.orderToDelete.id);
-    this.toastService.showSuccess(`${this.orderToDelete.itemName} removed`);
-    this.orderToDelete = null;
-    this.loadData();
+    this.store.dispatch(new DeleteOrder(this.orderToDelete.chefId, this.orderToDelete.id))
+      .subscribe(() => {
+        this.orderToDelete = null;
+        this.loadData();
+      });
   }
 
   protected override readCustomParams(params: Params): void {
@@ -99,14 +99,13 @@ export class OrderListComponent extends BaseListComponent {
       itemName: this.search || undefined,
       chefId: this.chefFilterControl.value || undefined,
       sortBy: this.sortField || undefined,
-      sortDirection: this.sortOrder === -1 ? 'desc' : 'asc',
+      sortDirection: this.sortOrder === -1 ? SortDirection.DESC : SortDirection.ASC,
       pageNumber: this.page,
       pageSize: this.rows
     };
-    this.result = this.orderService.getAll(filter);
-    this.orders = this.result.elements.map(order => ({
-      ...order,
-      chefName: this.chefsMap.get(order.chefId)?.name ?? 'Unknown'
-    }));
+    this.store.dispatch(new LoadOrders(filter)).subscribe(() => {
+      this.result = this.store.selectSnapshot(OrderState.orders)!;
+      this.orders = this.result?.elements ?? [];
+    });
   }
 }
