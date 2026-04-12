@@ -1,0 +1,82 @@
+<h2>Orders</h2>
+
+<p-toolbar class="mb-4">
+  <ng-template #end>
+    <p-select
+      [options]="chefOptions"
+      [formControl]="chefFilterControl"
+      (onChange)="filterByChef()"
+      placeholder="Filter by Chef"
+      [showClear]="true"
+      optionLabel="label"
+      optionValue="value"
+      class="order-chef-filter"
+    />
+  </ng-template>
+</p-toolbar>
+
+<p-table
+  [value]="orders"
+  [paginator]="true"
+  [rows]="rows"
+  [totalRecords]="result?.totalElements ?? 0"
+  [rowsPerPageOptions]="[5, 10, 25]"
+  [first]="page * rows"
+  [sortField]="sortField"
+  [sortOrder]="sortOrder"
+  [lazy]="true"
+  dataKey="id"
+  class="p-datatable-striped"
+  (onSort)="onSort($event)"
+  (onPage)="onPage($event)"
+>
+  <ng-template #caption>
+    <div class="flex justify-content-end">
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input pInputText type="text" placeholder="Search items..." [value]="search" (input)="onSearch($any($event.target).value)" />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th pSortableColumn="itemName">Item <p-sortIcon field="itemName" /></th>
+      <th pSortableColumn="totalPrice">Price <p-sortIcon field="totalPrice" /></th>
+      <th>Chef</th>
+      <th pSortableColumn="orderedAt">Ordered At <p-sortIcon field="orderedAt" /></th>
+      <th class="actions-col">Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-order>
+    <tr>
+      <td>{{ order.itemName }}</td>
+      <td>{{ order.totalPrice | currency }}</td>
+      <td>
+        <a [routerLink]="['/' + AppRoutes.CHEFS, order.chefId]" class="text-primary no-underline">
+          {{ order.chefName }}
+        </a>
+      </td>
+      <td>{{ order.orderedAt | date:'medium' }}</td>
+      <td>
+        <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info" (onClick)="editOrder(order)" class="mr-1" />
+        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="openDeleteModal(order)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<app-order-form
+  [(visible)]="formVisible"
+  [order]="selectedOrder"
+  (save)="onSave($event)"
+/>
+
+@if (orderToDelete) {
+  <app-delete-modal
+    [(visible)]="deleteModalVisible"
+    [itemName]="orderToDelete.itemName"
+    (confirm)="onDeleteConfirm()"
+  />
+}

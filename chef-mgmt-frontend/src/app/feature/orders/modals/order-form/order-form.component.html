@@ -1,0 +1,40 @@
+<p-dialog
+  [header]="order ? 'Edit Order' : 'New Order'"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  (onHide)="onCancel()"
+>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-column gap-3 mt-3">
+      <div class="flex flex-column gap-1">
+        <label for="itemName" class="font-semibold">Item Name</label>
+        <input pInputText id="itemName" formControlName="itemName" placeholder="Dish name" />
+        @if (form.get('itemName')?.invalid && form.get('itemName')?.touched) {
+          <small class="text-red-500">Item name is required (2-60 characters)</small>
+        }
+      </div>
+
+      <div class="flex flex-column gap-1">
+        <label for="totalPrice" class="font-semibold">Total Price</label>
+        <p-inputNumber id="totalPrice" formControlName="totalPrice" mode="currency" currency="USD" [min]="0.01" />
+        @if (form.get('totalPrice')?.invalid && form.get('totalPrice')?.touched) {
+          <small class="text-red-500">Price must be greater than 0</small>
+        }
+      </div>
+
+      <div class="flex flex-column gap-1">
+        <label for="orderedAt" class="font-semibold">Ordered At</label>
+        <p-datepicker id="orderedAt" formControlName="orderedAt" [showTime]="true" [showIcon]="true" dateFormat="yy-mm-dd" [fluid]="true" [appendTo]="'body'" />
+        @if (form.get('orderedAt')?.invalid && form.get('orderedAt')?.touched) {
+          <small class="text-red-500">Order date is required</small>
+        }
+      </div>
+    </div>
+  </form>
+
+  <ng-template #footer>
+    <p-button label="Cancel" severity="secondary" (onClick)="onCancel()" />
+    <p-button label="Save" icon="pi pi-check" (onClick)="onSubmit()" [disabled]="form.invalid" />
+  </ng-template>
+</p-dialog>

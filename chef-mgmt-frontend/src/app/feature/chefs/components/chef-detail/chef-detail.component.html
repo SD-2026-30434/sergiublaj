@@ -1,0 +1,103 @@
+@if (!chef) {
+  <h2>Chef not found</h2>
+  <p-button label="Back to Chefs" icon="pi pi-arrow-left" (onClick)="goBack()"/>
+} @else {
+  <div class="flex align-items-center gap-3 mb-4">
+    <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" (onClick)="goBack()"/>
+    <h2 class="m-0">{{ chef.name }}</h2>
+  </div>
+
+  <p-card>
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="flex align-items-start gap-3">
+          <p-avatar icon="pi pi-user" size="xlarge" shape="circle" class="chef-avatar"/>
+          <div class="flex flex-column gap-3">
+          <div>
+            <span class="font-semibold text-500">Email: </span>
+            <span>{{ chef.email }}</span>
+          </div>
+          <div>
+            <span class="font-semibold text-500">Birth Date: </span>
+            <span>{{ chef.birthDate | date:'mediumDate' }}</span>
+          </div>
+          <div>
+            <span class="font-semibold text-500">Rating: </span>
+            <p-tag [value]="(chef.numberOfStars | number:'1.1-1') ?? ''"
+                   [severity]="chef.numberOfStars >= 4.5 ? 'success' : chef.numberOfStars >= 3.5 ? 'warn' : 'danger'"
+                   icon="pi pi-star"/>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="col-12 md:col-6 flex justify-content-end align-items-start">
+        <p-button label="Edit Chef" icon="pi pi-pencil" (onClick)="editChef()"/>
+      </div>
+    </div>
+  </p-card>
+
+  <h3 class="mt-4">Orders</h3>
+
+  <p-toolbar class="mb-3">
+    <ng-template #start>
+      <p-button label="New Order" icon="pi pi-plus" (onClick)="openNewOrder()"/>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    [value]="orders"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 25]"
+    dataKey="id"
+    class="p-datatable-striped"
+  >
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="itemName">Item
+          <p-sortIcon field="itemName"/>
+        </th>
+        <th pSortableColumn="totalPrice">Price
+          <p-sortIcon field="totalPrice"/>
+        </th>
+        <th pSortableColumn="orderedAt">Ordered At
+          <p-sortIcon field="orderedAt"/>
+        </th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-order>
+      <tr>
+        <td>{{ order.itemName }}</td>
+        <td>{{ order.totalPrice | currency }}</td>
+        <td>{{ order.orderedAt | date:'medium' }}</td>
+        <td>
+          <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info" (onClick)="editOrder(order)"
+                    class="mr-1"/>
+          <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                    (onClick)="openDeleteModal(order)"/>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <app-chef-form
+    [(visible)]="chefFormVisible"
+    [chef]="chef"
+    (save)="onChefSave($event)"
+  />
+
+  <app-order-form
+    [(visible)]="orderFormVisible"
+    [order]="selectedOrder"
+    (save)="onOrderSave($event)"
+  />
+
+  @if (orderToDelete) {
+    <app-delete-modal
+      [(visible)]="deleteModalVisible"
+      [itemName]="orderToDelete.itemName"
+      (confirm)="onDeleteConfirm()"
+    />
+  }
+}

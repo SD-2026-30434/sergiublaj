@@ -1,0 +1,17 @@
+<p-dialog
+  [header]="header"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  (onHide)="onCancel()"
+>
+  <div class="flex align-items-center gap-3">
+    <i [class]="icon" class="text-4xl text-red-500"></i>
+    <span>Are you sure you want to delete "{{ itemName }}"?</span>
+  </div>
+
+  <ng-template #footer>
+    <p-button label="Cancel" severity="secondary" (onClick)="onCancel()" />
+    <p-button label="Delete" icon="pi pi-trash" severity="danger" (onClick)="onConfirm()" />
+  </ng-template>
+</p-dialog>
