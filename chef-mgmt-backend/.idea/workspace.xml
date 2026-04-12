@@ -4,76 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e6e3e948-9e8f-43d0-b9c0-c8f4c6387215" name="Changes" comment="added code for lab05">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/ChefMgmtBackendApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/config/SwaggerConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/auth/AuthController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/auth/AuthControllerBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/chef/ChefController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/chef/ChefControllerBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/cheforder/ChefOrderController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/cheforder/ChefOrderControllerBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/order/OrderController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/order/OrderControllerBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/user/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/controller/user/UserControllerBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/CollectionResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/chef/ChefFilterDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/chef/ChefRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/chef/ChefWithOrdersResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/chef/ChefWithoutOrdersResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/order/OrderFilterDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/order/OrderRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/order/OrderResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/user/LoginRequestDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/dto/user/UserResponseDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/exception/DataNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/exception/DuplicateDataException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/exception/ExceptionBody.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/exception/ExceptionCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/exception/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/mapper/ChefMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/mapper/DtoMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/mapper/OrderMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/AppUserEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/ChefEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/OrderEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/UserEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/UserRole.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/EntitySpecification.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/chef/ChefRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/chef/ChefSpecification.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/order/OrderRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/order/OrderSpecification.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/user/AppUserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/repository/user/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/AppUserDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/AuthorizationExpressions.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/CookieService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/JpaUserDetailsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/JwtAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/JwtService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/LoginAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/UserDetailsImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/chef/ChefService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/chef/ChefServiceBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/order/OrderService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/order/OrderServiceBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/user/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/user/UserServiceBean.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/util/RestUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/validator/BirthDateValidator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/validator/ValidBirthDate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docs/superpowers/specs/2026-04-05-chef-mgmt-frontend-design.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/superpowers/specs/2026-04-05-chef-mgmt-frontend-design.md" afterDir="false" />
+    <list default="true" id="e6e3e948-9e8f-43d0-b9c0-c8f4c6387215" name="Changes" comment="added code for lab08">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/CookieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/CookieService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,6 +77,15 @@
   }
 }</component>
   <component name="RunManager" selected="Spring Boot.ChefMgmtBackendApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <configuration name="[clean install]" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -223,6 +166,8 @@
       <workItem from="1775119175562" duration="42000" />
       <workItem from="1775400641912" duration="184000" />
       <workItem from="1775467737747" duration="2000" />
+      <workItem from="1776023329590" duration="933000" />
+      <workItem from="1776025977634" duration="677000" />
     </task>
     <task id="LOCAL-00001" summary="fixed n + 1">
       <option name="closed" value="true" />

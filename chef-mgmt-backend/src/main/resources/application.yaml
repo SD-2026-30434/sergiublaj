@@ -23,4 +23,4 @@ app:
     expiration-minutes: 60
   security:
     login-url: /auth/v1/login
-    allowed-urls: /swagger-ui/**,/swagger-ui.html,/v3/api-docs/**,/v3/api-docs.yaml,/error,/auth/v1/logout
+    allowed-urls: /auth/v1/logout,/swagger-ui/**,/swagger-ui.html,/v3/api-docs/**,/v3/api-docs.yaml,/error
