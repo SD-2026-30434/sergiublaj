@@ -29,8 +29,7 @@ import { BaseListComponent } from '../../../../shared/components/base-list/base-
     InputTextModule, TagModule, IconFieldModule, InputIconModule,
     ChefFormComponent, DeleteModalComponent
   ],
-  templateUrl: './chef-list.component.html',
-  styleUrl: './chef-list.component.scss'
+  templateUrl: './chef-list.component.html'
 })
 export class ChefListComponent extends BaseListComponent {
   private readonly store = inject(Store);

@@ -12,8 +12,7 @@ import { ChefRequest } from '../../models/chef-request.model';
   selector: 'app-chef-form',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, InputTextModule, InputNumberModule, DatePickerModule, ButtonModule],
-  templateUrl: './chef-form.component.html',
-  styleUrl: './chef-form.component.scss'
+  templateUrl: './chef-form.component.html'
 })
 export class ChefFormComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);

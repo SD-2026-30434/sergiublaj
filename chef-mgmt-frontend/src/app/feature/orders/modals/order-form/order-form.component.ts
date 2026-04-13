@@ -12,8 +12,7 @@ import { OrderRequest } from '../../models/order-request.model';
   selector: 'app-order-form',
   standalone: true,
   imports: [ReactiveFormsModule, DialogModule, InputTextModule, InputNumberModule, DatePickerModule, ButtonModule],
-  templateUrl: './order-form.component.html',
-  styleUrl: './order-form.component.scss'
+  templateUrl: './order-form.component.html'
 })
 export class OrderFormComponent implements OnInit, OnChanges {
   private readonly fb = inject(FormBuilder);

@@ -30,8 +30,7 @@ import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/del
     CurrencyPipe, DatePipe, DecimalPipe, CardModule, TableModule, ButtonModule, TagModule,
     ToolbarModule, AvatarModule, ChefFormComponent, OrderFormComponent, DeleteModalComponent
   ],
-  templateUrl: './chef-detail.component.html',
-  styleUrl: './chef-detail.component.scss'
+  templateUrl: './chef-detail.component.html'
 })
 export class ChefDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);

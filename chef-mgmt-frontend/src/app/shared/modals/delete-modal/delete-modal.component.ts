@@ -7,8 +7,7 @@ import { DELETE_MODAL_DEFAULTS } from './delete-modal.component.data';
   selector: 'app-delete-modal',
   standalone: true,
   imports: [DialogModule, ButtonModule],
-  templateUrl: './delete-modal.component.html',
-  styleUrl: './delete-modal.component.scss'
+  templateUrl: './delete-modal.component.html'
 })
 export class DeleteModalComponent {
   @Input() visible = false;
