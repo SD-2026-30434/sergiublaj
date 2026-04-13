@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 import { SortEvent } from 'primeng/api';
 import { APP_CONFIG } from '../../../core/config/app.config';
 import { SortDirection } from '../../../core/models/sort-direction.enum';
@@ -18,13 +19,14 @@ export abstract class BaseListComponent implements OnInit {
   rows = APP_CONFIG.pageSize;
 
   ngOnInit(): void {
-    this.route.queryParams
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params) => {
+    this.route.queryParams.pipe(
+      tap(params => {
         this.readBaseParams(params);
         this.readCustomParams(params);
         this.loadData();
-      });
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
   onSort(event: SortEvent): void {
