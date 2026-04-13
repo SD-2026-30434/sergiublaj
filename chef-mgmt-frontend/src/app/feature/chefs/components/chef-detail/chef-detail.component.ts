@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { tap } from 'rxjs';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -51,10 +52,12 @@ export class ChefDetailComponent implements OnInit {
   }
 
   loadChef(id: string): void {
-    this.store.dispatch(new LoadChef(id)).subscribe(() => {
-      this.chef = this.store.selectSnapshot(ChefState.selectedChef);
-      this.orders = this.chef?.orders ?? [];
-    });
+    this.store.dispatch(new LoadChef(id)).pipe(
+      tap(() => {
+        this.chef = this.store.selectSnapshot(ChefState.selectedChef);
+        this.orders = this.chef?.orders ?? [];
+      })
+    ).subscribe();
   }
 
   goBack(): void {
@@ -70,9 +73,9 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef) {
       return;
     }
-    this.store.dispatch(new UpdateChef(this.chef.id, request)).subscribe(() => {
-      this.loadChef(this.chef!.id);
-    });
+    this.store.dispatch(new UpdateChef(this.chef.id, request)).pipe(
+      tap(() => this.loadChef(this.chef!.id))
+    ).subscribe();
   }
 
   openNewOrder(): void {
@@ -92,7 +95,9 @@ export class ChefDetailComponent implements OnInit {
     const action = this.selectedOrder
       ? new UpdateOrder(this.chef.id, this.selectedOrder.id, request)
       : new CreateOrder(this.chef.id, request);
-    this.store.dispatch(action).subscribe(() => this.loadChef(this.chef!.id));
+    this.store.dispatch(action).pipe(
+      tap(() => this.loadChef(this.chef!.id))
+    ).subscribe();
   }
 
   openDeleteModal(order: Order): void {
@@ -104,9 +109,11 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef || !this.orderToDelete) {
       return;
     }
-    this.store.dispatch(new DeleteOrder(this.chef.id, this.orderToDelete.id)).subscribe(() => {
-      this.orderToDelete = null;
-      this.loadChef(this.chef!.id);
-    });
+    this.store.dispatch(new DeleteOrder(this.chef.id, this.orderToDelete.id)).pipe(
+      tap(() => {
+        this.orderToDelete = null;
+        this.loadChef(this.chef!.id);
+      })
+    ).subscribe();
   }
 }

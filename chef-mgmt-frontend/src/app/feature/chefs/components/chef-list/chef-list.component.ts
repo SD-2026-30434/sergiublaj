@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Store } from '@ngxs/store';
+import { tap } from 'rxjs';
 import { AppRoutes } from '../../../../core/models/app-routes.enum';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -59,7 +60,9 @@ export class ChefListComponent extends BaseListComponent {
     const action = this.selectedChef
       ? new UpdateChef(this.selectedChef.id, request)
       : new CreateChef(request);
-    this.store.dispatch(action).subscribe(() => this.loadData());
+    this.store.dispatch(action).pipe(
+      tap(() => this.loadData())
+    ).subscribe();
   }
 
   openDeleteModal(chef: Chef): void {
@@ -71,10 +74,12 @@ export class ChefListComponent extends BaseListComponent {
     if (!this.chefToDelete) {
       return;
     }
-    this.store.dispatch(new DeleteChef(this.chefToDelete.id)).subscribe(() => {
-      this.chefToDelete = null;
-      this.loadData();
-    });
+    this.store.dispatch(new DeleteChef(this.chefToDelete.id)).pipe(
+      tap(() => {
+        this.chefToDelete = null;
+        this.loadData();
+      })
+    ).subscribe();
   }
 
   protected override loadData(): void {
@@ -85,9 +90,11 @@ export class ChefListComponent extends BaseListComponent {
       pageNumber: this.page,
       pageSize: this.rows
     };
-    this.store.dispatch(new LoadChefs(filter)).subscribe(() => {
-      this.result = this.store.selectSnapshot(ChefState.chefs)!;
-      this.chefs = this.result?.elements ?? [];
-    });
+    this.store.dispatch(new LoadChefs(filter)).pipe(
+      tap(() => {
+        this.result = this.store.selectSnapshot(ChefState.chefs)!;
+        this.chefs = this.result?.elements ?? [];
+      })
+    ).subscribe();
   }
 }

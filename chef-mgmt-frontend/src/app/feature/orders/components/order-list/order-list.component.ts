@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Params, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { tap } from 'rxjs';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -50,10 +51,12 @@ export class OrderListComponent extends BaseListComponent {
   orderToDelete: Order | null = null;
 
   override ngOnInit(): void {
-    this.store.dispatch(new LoadChefs({ pageSize: 1000 })).subscribe(() => {
-      const chefsResult = this.store.selectSnapshot(ChefState.chefs);
-      this.chefOptions = (chefsResult?.elements ?? []).map(chef => ({ label: chef.name, value: chef.id }));
-    });
+    this.store.dispatch(new LoadChefs({ pageSize: 1000 })).pipe(
+      tap(() => {
+        const chefsResult = this.store.selectSnapshot(ChefState.chefs);
+        this.chefOptions = (chefsResult?.elements ?? []).map(chef => ({ label: chef.name, value: chef.id }));
+      })
+    ).subscribe();
     super.ngOnInit();
   }
 
@@ -68,8 +71,9 @@ export class OrderListComponent extends BaseListComponent {
 
   onSave(request: OrderRequest): void {
     if (this.selectedOrder) {
-      this.store.dispatch(new UpdateOrder(this.selectedOrder.chefId, this.selectedOrder.id, request))
-        .subscribe(() => this.loadData());
+      this.store.dispatch(new UpdateOrder(this.selectedOrder.chefId, this.selectedOrder.id, request)).pipe(
+        tap(() => this.loadData())
+      ).subscribe();
     }
   }
 
@@ -82,11 +86,12 @@ export class OrderListComponent extends BaseListComponent {
     if (!this.orderToDelete) {
       return;
     }
-    this.store.dispatch(new DeleteOrder(this.orderToDelete.chefId, this.orderToDelete.id))
-      .subscribe(() => {
+    this.store.dispatch(new DeleteOrder(this.orderToDelete.chefId, this.orderToDelete.id)).pipe(
+      tap(() => {
         this.orderToDelete = null;
         this.loadData();
-      });
+      })
+    ).subscribe();
   }
 
   protected override readCustomParams(params: Params): void {
@@ -103,9 +108,11 @@ export class OrderListComponent extends BaseListComponent {
       pageNumber: this.page,
       pageSize: this.rows
     };
-    this.store.dispatch(new LoadOrders(filter)).subscribe(() => {
-      this.result = this.store.selectSnapshot(OrderState.orders)!;
-      this.orders = this.result?.elements ?? [];
-    });
+    this.store.dispatch(new LoadOrders(filter)).pipe(
+      tap(() => {
+        this.result = this.store.selectSnapshot(OrderState.orders)!;
+        this.orders = this.result?.elements ?? [];
+      })
+    ).subscribe();
   }
 }
