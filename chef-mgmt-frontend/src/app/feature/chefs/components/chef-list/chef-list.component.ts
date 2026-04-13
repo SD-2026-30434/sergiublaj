@@ -27,8 +27,7 @@ import { SortDirection } from '../../../../core/models/sort-direction.enum';
     InputTextModule, TagModule, IconFieldModule, InputIconModule,
     ChefFormComponent, DeleteModalComponent
   ],
-  templateUrl: './chef-list.component.html',
-  styleUrl: './chef-list.component.scss'
+  templateUrl: './chef-list.component.html'
 })
 export class ChefListComponent extends BaseListComponent {
   private readonly chefService = inject(ChefService);

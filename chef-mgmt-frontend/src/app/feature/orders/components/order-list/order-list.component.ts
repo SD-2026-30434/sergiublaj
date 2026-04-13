@@ -31,8 +31,7 @@ import { SortDirection } from '../../../../core/models/sort-direction.enum';
     InputTextModule, SelectModule, IconFieldModule, InputIconModule,
     ReactiveFormsModule, OrderFormComponent, DeleteModalComponent
   ],
-  templateUrl: './order-list.component.html',
-  styleUrl: './order-list.component.scss'
+  templateUrl: './order-list.component.html'
 })
 export class OrderListComponent extends BaseListComponent {
   readonly AppRoutes = AppRoutes;
