@@ -5,6 +5,7 @@ import { ChefRequest } from '../models/chef-request.model';
 import { CollectionResponse } from '../../../shared/models/collection.model';
 import { OrderService } from '../../orders/services/order.service';
 import { APP_CONFIG } from '../../../core/config/app.config';
+import { SortDirection } from '../../../core/models/sort-direction.enum';
 import mockData from '../../../../assets/mock-data.json';
 
 @Injectable({ providedIn: 'root' })
@@ -27,7 +28,7 @@ export class ChefService {
     }
 
     const sortBy = filter.sortBy || 'name';
-    const sortDir = filter.sortDirection === 'desc' ? -1 : 1;
+    const sortDir = filter.sortDirection === SortDirection.DESC ? -1 : 1;
     result.sort((chefA, chefB) => {
       const aVal = (chefA as any)[sortBy];
       const bVal = (chefB as any)[sortBy];

@@ -21,6 +21,7 @@ import { CollectionResponse } from '../../../../shared/models/collection.model';
 import { OrderFormComponent } from '../../modals/order-form/order-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
 import { BaseListComponent } from '../../../../shared/components/base-list/base-list.component';
+import { SortDirection } from '../../../../core/models/sort-direction.enum';
 
 @Component({
   selector: 'app-order-list',
@@ -99,7 +100,7 @@ export class OrderListComponent extends BaseListComponent {
       itemName: this.search || undefined,
       chefId: this.chefFilterControl.value || undefined,
       sortBy: this.sortField || undefined,
-      sortDirection: this.sortOrder === -1 ? 'desc' : 'asc',
+      sortDirection: this.sortOrder === -1 ? SortDirection.DESC : SortDirection.ASC,
       pageNumber: this.page,
       pageSize: this.rows
     };

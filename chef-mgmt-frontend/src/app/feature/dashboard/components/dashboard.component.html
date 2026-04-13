@@ -1,53 +1,22 @@
-<h2>Dashboard</h2>
+<h2>Welcome!</h2>
 
-<div class="grid">
-  <div class="col-12 md:col-4">
-    <p-card>
-      <div class="text-center">
-        <div class="text-4xl font-bold text-primary">{{ totalChefs }}</div>
-        <div class="text-500 mt-2"><i class="pi pi-users mr-1"></i>Total Chefs</div>
-      </div>
-    </p-card>
-  </div>
-  <div class="col-12 md:col-4">
-    <p-card>
-      <div class="text-center">
-        <div class="text-4xl font-bold text-primary">{{ totalOrders }}</div>
-        <div class="text-500 mt-2"><i class="pi pi-shopping-cart mr-1"></i>Total Orders</div>
-      </div>
-    </p-card>
-  </div>
-  <div class="col-12 md:col-4">
-    <p-card>
-      <div class="text-center">
-        <div class="text-4xl font-bold text-primary">{{ avgRating | number:'1.1-1' }}</div>
-        <div class="text-500 mt-2"><i class="pi pi-star mr-1"></i>Avg Rating</div>
-      </div>
-    </p-card>
-  </div>
-</div>
+<p>
+  This is the <strong>Chef Management System</strong>, a full-stack web application developed as part of the
+  <strong>Software Design</strong> course, 3rd year, Computer Science,
+  Technical University of Cluj-Napoca, 2025&#8211;2026.
+</p>
 
-<h3 class="mt-4">Recent Orders</h3>
-<p-table [value]="recentOrders" [rows]="5" class="p-datatable-striped">
-  <ng-template #header>
-    <tr>
-      <th>Item</th>
-      <th>Chef</th>
-      <th>Price</th>
-      <th>Ordered At</th>
-    </tr>
-  </ng-template>
-  <ng-template #body let-order>
+<p>
+  The application demonstrates key software design principles and patterns including
+  layered architecture, REST API design, state management with NGXS, role-based access control,
+  and component-driven UI development with Angular and PrimeNG.
+</p>
 
-    <tr>
-      <td>{{ order.itemName }}</td>
-      <td>
-        <a [routerLink]="['/' + AppRoutes.CHEFS, order.chefId]" class="text-primary no-underline">
-          {{ order.chefName }}
-        </a>
-      </td>
-      <td>{{ order.totalPrice | currency }}</td>
-      <td>{{ order.orderedAt | date:'medium' }}</td>
-    </tr>
-  </ng-template>
-</p-table>
+<h3>Features</h3>
+<ul>
+  <li>Authentication and authorization with session-based security</li>
+  <li>Role-based access: <strong>Admin</strong> and <strong>Chef</strong> roles with distinct permissions</li>
+  <li>CRUD operations for chefs and orders</li>
+  <li>Server-side filtering, sorting, and pagination</li>
+  <li>Reactive state management using NGXS</li>
+</ul>

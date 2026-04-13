@@ -3,6 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SortEvent } from 'primeng/api';
 import { APP_CONFIG } from '../../../core/config/app.config';
+import { SortDirection } from '../../../core/models/sort-direction.enum';
 
 @Component({ template: '' })
 export abstract class BaseListComponent implements OnInit {
@@ -29,7 +30,7 @@ export abstract class BaseListComponent implements OnInit {
   onSort(event: SortEvent): void {
     this.updateQueryParams({
       sortField: event.field,
-      sortOrder: event.order === 1 ? 'asc' : 'desc'
+      sortOrder: event.order === 1 ? SortDirection.ASC : SortDirection.DESC
     });
   }
 
@@ -59,7 +60,7 @@ export abstract class BaseListComponent implements OnInit {
   private readBaseParams(params: Params): void {
     this.search = params['search'] || '';
     this.sortField = params['sortField'] || '';
-    this.sortOrder = params['sortOrder'] === 'desc' ? -1 : 1;
+    this.sortOrder = params['sortOrder'] === SortDirection.DESC ? -1 : 1;
     this.page = Number(params['page']) || 0;
     this.rows = Number(params['rows']) || 10;
   }

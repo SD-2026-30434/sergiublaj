@@ -4,6 +4,7 @@ import { OrderFilter } from '../models/order-filter.model';
 import { OrderRequest } from '../models/order-request.model';
 import { CollectionResponse } from '../../../shared/models/collection.model';
 import { APP_CONFIG } from '../../../core/config/app.config';
+import { SortDirection } from '../../../core/models/sort-direction.enum';
 import mockData from '../../../../assets/mock-data.json';
 
 @Injectable({ providedIn: 'root' })
@@ -24,7 +25,7 @@ export class OrderService {
     }
 
     const sortBy = filter.sortBy || 'orderedAt';
-    const sortDir = filter.sortDirection === 'desc' ? -1 : 1;
+    const sortDir = filter.sortDirection === SortDirection.DESC ? -1 : 1;
     result.sort((orderA, orderB) => {
       const aVal = (orderA as any)[sortBy];
       const bVal = (orderB as any)[sortBy];

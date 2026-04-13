@@ -17,6 +17,7 @@ import { CollectionResponse } from '../../../../shared/models/collection.model';
 import { ChefFormComponent } from '../../modals/chef-form/chef-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
 import { BaseListComponent } from '../../../../shared/components/base-list/base-list.component';
+import { SortDirection } from '../../../../core/models/sort-direction.enum';
 
 @Component({
   selector: 'app-chef-list',
@@ -84,7 +85,7 @@ export class ChefListComponent extends BaseListComponent {
     const filter: ChefFilter = {
       name: this.search || undefined,
       sortBy: this.sortField || undefined,
-      sortDirection: this.sortOrder === -1 ? 'desc' : 'asc',
+      sortDirection: this.sortOrder === -1 ? SortDirection.DESC : SortDirection.ASC,
       pageNumber: this.page,
       pageSize: this.rows
     };
