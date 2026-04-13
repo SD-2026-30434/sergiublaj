@@ -10,7 +10,7 @@
   [value]="chefs"
   [paginator]="true"
   [rows]="rows"
-  [totalRecords]="result?.totalElements ?? 0"
+  [totalRecords]="result.totalElements"
   [rowsPerPageOptions]="[5, 10, 25]"
   [first]="page * rows"
   [sortField]="sortField"
