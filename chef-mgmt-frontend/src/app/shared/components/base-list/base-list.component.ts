@@ -19,8 +19,10 @@ export abstract class BaseListComponent implements OnInit {
   rows = APP_CONFIG.pageSize;
 
   ngOnInit(): void {
+    // OBSERVER PATTERN
     this.route.queryParams.pipe(
       tap(params => {
+        // TEMPLATE METHOD PATTERN
         this.readBaseParams(params);
         this.readCustomParams(params);
         this.loadData();
