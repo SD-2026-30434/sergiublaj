@@ -55,7 +55,7 @@
       <td>{{ order.totalPrice | currency }}</td>
       <td>
         <a [routerLink]="['/' + AppRoutes.CHEFS, order.chefId]" class="text-primary no-underline">
-          {{ order.chefName }}
+          {{ order.chefName || 'Unknown chef' }}
         </a>
       </td>
       <td>{{ order.orderedAt | date:'medium' }}</td>

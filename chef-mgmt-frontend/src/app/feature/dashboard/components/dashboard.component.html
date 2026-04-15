@@ -1,4 +1,4 @@
-<h2>Welcome{{ name ? ', ' + name : '' }}!</h2>
+<h2>Welcome{{ name() ? ', ' + name() : '' }}!</h2>
 
 <p>
   This is the <strong>Chef Management System</strong>, a full-stack web application developed as part of the
@@ -8,7 +8,7 @@
 
 <p>
   The application demonstrates key software design principles and patterns including
-  layered architecture, REST API design, state management with NGXS, role-based access control,
+  layered architecture, REST API design, role-based access control,
   and component-driven UI development with Angular and PrimeNG.
 </p>
 
@@ -18,10 +18,10 @@
   <li>Role-based access: <strong>Admin</strong> and <strong>Chef</strong> roles with distinct permissions</li>
   <li>CRUD operations for chefs and orders</li>
   <li>Server-side filtering, sorting, and pagination</li>
-  <li>Reactive state management using NGXS</li>
+  <li>Client state with Angular signals and services</li>
 </ul>
 
-@if (isAdmin) {
+@if (isAdmin()) {
   <p>You are logged in as an <strong>Administrator</strong>. Use the navigation bar to manage chefs and orders.</p>
 } @else {
   <p>You are logged in as a <strong>Chef</strong>. Use the navigation bar to view and manage your profile and orders.</p>

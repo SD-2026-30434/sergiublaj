@@ -1,31 +1,25 @@
-import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
-import { AuthState } from '../../../feature/auth/store/auth.state';
-import { Logout } from '../../../feature/auth/store/auth.actions';
-import { User } from '../../../feature/auth/models/user.model';
+import { AuthService } from '../../../feature/auth/services/auth.service';
+import { UserService } from '../../../feature/auth/services/user.service';
 import { AppRoutes } from '../../../core/models/app-routes.enum';
 import { Role } from '../../../core/models/role.enum';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [AsyncPipe, MenubarModule, ButtonModule],
+  imports: [MenubarModule, ButtonModule],
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
   private readonly router = inject(Router);
-  private readonly store = inject(Store);
-
-  user$: Observable<User | null> = this.store.select(AuthState.user);
-
-  get menuItems(): MenuItem[] {
-    const user = this.store.selectSnapshot(AuthState.user);
+  protected readonly userService = inject(UserService);
+  readonly menuItems = computed<MenuItem[]>(() => {
+    const user = this.userService.user();
     if (!user) {
       return [];
     }
@@ -40,15 +34,28 @@ export class NavbarComponent {
 
     return [
       { label: 'Dashboard', icon: 'pi pi-home', routerLink: `/${AppRoutes.DASHBOARD}` },
-      { label: 'My Profile', icon: 'pi pi-user', routerLink: `/${AppRoutes.CHEFS}/${user.chefId}` },
+      { label: 'My Profile', icon: 'pi pi-user', routerLink: `/${ AppRoutes.CHEFS }/${ user.chefId }` }
     ];
-  }
+  });
+  private readonly auth = inject(AuthService);
+  private readonly toast = inject(ToastService);
 
   goHome(): void {
     this.router.navigate([`/${AppRoutes.DASHBOARD}`]).then();
   }
 
   onLogout(): void {
-    this.store.dispatch(new Logout());
+    this.auth.logout().subscribe({
+      next: () => {
+        this.userService.setCurrentUser(null);
+        this.toast.showSuccess('Signed out');
+        this.router.navigate([`/${ AppRoutes.LOGIN }`]).then();
+      },
+      error: () => {
+        this.userService.setCurrentUser(null);
+        this.toast.showSuccess('Signed out');
+        this.router.navigate([`/${ AppRoutes.LOGIN }`]).then();
+      }
+    });
   }
 }

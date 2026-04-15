@@ -1,9 +1,9 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { API_CONFIG } from '../config/api.config';
 
 export const httpRequestInterceptor: HttpInterceptorFn = (req, next) => {
   const modifiedReq = req.clone({
-    url: `${environment.apiUrl}${req.url}`,
+    url: `${ API_CONFIG.baseUrl }${ req.url }`,
     withCredentials: true
   });
 

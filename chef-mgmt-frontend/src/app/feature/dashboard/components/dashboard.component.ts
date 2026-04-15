@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { AuthState } from '../../auth/store/auth.state';
+import { Component, computed, inject } from '@angular/core';
+import { UserService } from '../../auth/services/user.service';
 import { Role } from '../../../core/models/role.enum';
 
 @Component({
@@ -9,9 +8,11 @@ import { Role } from '../../../core/models/role.enum';
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
-  private readonly store = inject(Store);
+  private readonly userService = inject(UserService);
 
-  private readonly user = this.store.selectSnapshot(AuthState.user);
-  isAdmin = this.user?.role === Role.ADMIN;
-  name = this.user?.chefName ?? this.user?.email ?? '';
+  protected readonly isAdmin = computed(() => this.userService.user()?.role === Role.ADMIN);
+  protected readonly name = computed(() => {
+    const u = this.userService.user();
+    return u?.chefName ?? u?.email ?? '';
+  });
 }

@@ -2,9 +2,9 @@
   <p-card header="Sign In" class="w-full login-card">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="flex flex-column gap-3">
-        @if (error$ | async; as error) {
+        @if (error(); as err) {
           <div class="p-3 border-round bg-red-50 text-red-700">
-            {{ error }}
+            {{ err }}
           </div>
         }
         <div class="flex flex-column gap-2">
@@ -19,7 +19,7 @@
           type="submit"
           label="Sign In"
           icon="pi pi-sign-in"
-          [loading]="(loading$ | async) ?? false"
+          [loading]="loading()"
           [disabled]="!form.valid"
           styleClass="w-full"
         />

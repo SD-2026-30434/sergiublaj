@@ -1,29 +1,35 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { AsyncPipe } from '@angular/common';
-import { Login } from '../../store/auth.actions';
-import { AuthState } from '../../store/auth.state';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
+import { AppRoutes } from '../../../../core/models/app-routes.enum';
+import { Role } from '../../../../core/models/role.enum';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [AsyncPipe, ReactiveFormsModule, InputTextModule, PasswordModule, ButtonModule, CardModule],
+  imports: [ReactiveFormsModule, InputTextModule, PasswordModule, ButtonModule, CardModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly store = inject(Store);
+  protected readonly loading = signal(false);
+  protected readonly error = signal<string | null>(null);
+  private readonly auth = inject(AuthService);
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   form!: FormGroup;
-  loading$: Observable<boolean> = this.store.select(AuthState.loading);
-  error$: Observable<string | null> = this.store.select(AuthState.error);
 
   ngOnInit(): void {
     this.buildForm();
@@ -34,7 +40,25 @@ export class LoginComponent implements OnInit {
       return;
     }
     const { email, password } = this.form.value;
-    this.store.dispatch(new Login(email, password));
+    this.loading.set(true);
+    this.error.set(null);
+    this.auth.login(email, password).pipe(
+      switchMap(() => this.userService.getMe()),
+      tap(user => {
+        this.userService.setCurrentUser(user);
+        this.toast.showSuccess('Signed in successfully');
+        if (user.role === Role.CHEF) {
+          this.router.navigate([`/${ AppRoutes.CHEFS }`, user.chefId]).then();
+        } else {
+          this.router.navigate([`/${ AppRoutes.DASHBOARD }`]).then();
+        }
+      }),
+      catchError((err: { error?: { message?: string } }) => {
+        this.error.set(err.error?.message ?? 'Login failed');
+        return of(null);
+      }),
+      finalize(() => this.loading.set(false))
+    ).subscribe();
   }
 
   private buildForm(): void {

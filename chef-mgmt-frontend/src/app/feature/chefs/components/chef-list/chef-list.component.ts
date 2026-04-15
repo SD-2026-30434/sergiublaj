@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { Store } from '@ngxs/store';
 import { tap } from 'rxjs';
 import { AppRoutes } from '../../../../core/models/app-routes.enum';
 import { TableModule } from 'primeng/table';
@@ -14,12 +13,12 @@ import { Chef } from '../../models/chef.model';
 import { ChefRequest } from '../../models/chef-request.model';
 import { ChefFilter } from '../../models/chef-filter.model';
 import { SortDirection } from '../../../../core/models/sort-direction.enum';
-import { ChefState } from '../../store/chef.state';
-import { LoadChefs, CreateChef, UpdateChef, DeleteChef } from '../../store/chef.actions';
 import { CollectionResponse } from '../../../../shared/models/collection.model';
 import { ChefFormComponent } from '../../modals/chef-form/chef-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
 import { BaseListComponent } from '../../../../shared/components/base-list/base-list.component';
+import { ChefService } from '../../services/chef.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-chef-list',
@@ -32,9 +31,15 @@ import { BaseListComponent } from '../../../../shared/components/base-list/base-
   templateUrl: './chef-list.component.html'
 })
 export class ChefListComponent extends BaseListComponent {
-  private readonly store = inject(Store);
-
-  result!: CollectionResponse<Chef>;
+  result: CollectionResponse<Chef> = {
+    pageNumber: 0,
+    pageSize: 0,
+    totalPages: 0,
+    totalElements: 0,
+    elements: []
+  };
+  private readonly chefService = inject(ChefService);
+  private readonly toast = inject(ToastService);
   chefs: Chef[] = [];
   formVisible = false;
   selectedChef: Chef | null = null;
@@ -56,11 +61,15 @@ export class ChefListComponent extends BaseListComponent {
   }
 
   onSave(request: ChefRequest): void {
-    const action = this.selectedChef
-      ? new UpdateChef(this.selectedChef.id, request)
-      : new CreateChef(request);
-    this.store.dispatch(action).pipe(
-      tap(() => this.loadData())
+    const isUpdate = !!this.selectedChef;
+    const obs = isUpdate
+      ? this.chefService.update(this.selectedChef!.id, request)
+      : this.chefService.create(request);
+    obs.pipe(
+      tap(() => {
+        this.toast.showSuccess(isUpdate ? 'Chef updated' : 'Chef created');
+        this.loadData();
+      })
     ).subscribe();
   }
 
@@ -73,8 +82,9 @@ export class ChefListComponent extends BaseListComponent {
     if (!this.chefToDelete) {
       return;
     }
-    this.store.dispatch(new DeleteChef(this.chefToDelete.id)).pipe(
+    this.chefService.delete(this.chefToDelete.id).pipe(
       tap(() => {
+        this.toast.showSuccess('Chef deleted');
         this.chefToDelete = null;
         this.loadData();
       })
@@ -89,11 +99,9 @@ export class ChefListComponent extends BaseListComponent {
       pageNumber: this.page,
       pageSize: this.rows
     };
-    this.store.dispatch(new LoadChefs(filter)).pipe(
-      tap(() => {
-        this.result = this.store.selectSnapshot(ChefState.chefs)!;
-        this.chefs = this.result?.elements ?? [];
-      })
-    ).subscribe();
+    this.chefService.getAll(filter).subscribe(result => {
+      this.result = result;
+      this.chefs = result?.elements ?? [];
+    });
   }
 }

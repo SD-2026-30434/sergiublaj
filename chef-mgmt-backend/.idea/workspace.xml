@@ -5,9 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6e3e948-9e8f-43d0-b9c0-c8f4c6387215" name="Changes" comment="added code for lab08">
+      <change afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/config/api.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/services/user.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/CookieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/security/CookieService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/app.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/guards/auth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/guards/role.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/guards/role.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/interceptors/http-request.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/interceptors/http-request.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/interceptors/http-response.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/core/interceptors/http-response.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/components/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/components/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/components/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/components/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/services/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/store/auth.actions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/auth/store/auth.state.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-list/chef-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-list/chef-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/services/chef.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/services/chef.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/store/chef.actions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/store/chef.state.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/dashboard/components/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/dashboard/components/dashboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/dashboard/components/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/dashboard/components/dashboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/components/order-list/order-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/components/order-list/order-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/services/order.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/services/order.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/store/order.actions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/store/order.state.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/shared/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/shared/components/navbar/navbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/shared/components/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/shared/components/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/environments/environment.prod.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,6 +197,7 @@
       <workItem from="1775467737747" duration="2000" />
       <workItem from="1776023329590" duration="933000" />
       <workItem from="1776025977634" duration="677000" />
+      <workItem from="1776268813267" duration="1253000" />
     </task>
     <task id="LOCAL-00001" summary="fixed n + 1">
       <option name="closed" value="true" />

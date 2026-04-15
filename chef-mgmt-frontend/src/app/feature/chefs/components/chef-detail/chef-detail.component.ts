@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { tap } from 'rxjs';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -13,15 +13,15 @@ import { Chef } from '../../models/chef.model';
 import { ChefRequest } from '../../models/chef-request.model';
 import { Order } from '../../../orders/models/order.model';
 import { OrderRequest } from '../../../orders/models/order-request.model';
-import { ChefState } from '../../store/chef.state';
-import { LoadChef, UpdateChef } from '../../store/chef.actions';
-import { CreateOrder, UpdateOrder, DeleteOrder } from '../../../orders/store/order.actions';
-import { AuthState } from '../../../auth/store/auth.state';
 import { AppRoutes } from '../../../../core/models/app-routes.enum';
 import { Role } from '../../../../core/models/role.enum';
 import { ChefFormComponent } from '../../modals/chef-form/chef-form.component';
 import { OrderFormComponent } from '../../../orders/modals/order-form/order-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
+import { ChefService } from '../../services/chef.service';
+import { OrderService } from '../../../orders/services/order.service';
+import { UserService } from '../../../auth/services/user.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-chef-detail',
@@ -35,7 +35,12 @@ import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/del
 export class ChefDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly store = inject(Store);
+  private readonly chefService = inject(ChefService);
+  private readonly orderService = inject(OrderService);
+  private readonly userService = inject(UserService);
+  private readonly toast = inject(ToastService);
+
+  protected readonly loading = signal(true);
 
   chef: Chef | null = null;
   orders: Order[] = [];
@@ -51,16 +56,23 @@ export class ChefDetailComponent implements OnInit {
   }
 
   loadChef(id: string): void {
-    this.store.dispatch(new LoadChef(id)).pipe(
-      tap(() => {
-        this.chef = this.store.selectSnapshot(ChefState.selectedChef);
-        this.orders = this.chef?.orders ?? [];
-      })
+    this.loading.set(true);
+    this.chefService.getById(id).pipe(
+      tap(chef => {
+        this.chef = chef;
+        this.orders = chef?.orders ?? [];
+      }),
+      catchError(() => {
+        this.chef = null;
+        this.orders = [];
+        return of(null);
+      }),
+      finalize(() => this.loading.set(false))
     ).subscribe();
   }
 
   goBack(): void {
-    const target = this.store.selectSnapshot(AuthState.userRole) === Role.ADMIN ? AppRoutes.CHEFS : AppRoutes.DASHBOARD;
+    const target = this.userService.userRole() === Role.ADMIN ? AppRoutes.CHEFS : AppRoutes.DASHBOARD;
     this.router.navigate([`/${target}`]).then();
   }
 
@@ -72,8 +84,11 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef) {
       return;
     }
-    this.store.dispatch(new UpdateChef(this.chef.id, request)).pipe(
-      tap(() => this.loadChef(this.chef!.id))
+    this.chefService.update(this.chef.id, request).pipe(
+      tap(() => {
+        this.toast.showSuccess('Chef updated');
+        this.loadChef(this.chef!.id);
+      })
     ).subscribe();
   }
 
@@ -91,11 +106,15 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef) {
       return;
     }
-    const action = this.selectedOrder
-      ? new UpdateOrder(this.chef.id, this.selectedOrder.id, request)
-      : new CreateOrder(this.chef.id, request);
-    this.store.dispatch(action).pipe(
-      tap(() => this.loadChef(this.chef!.id))
+    const isUpdate = !!this.selectedOrder;
+    const orderFunction = isUpdate
+      ? this.orderService.update(this.chef.id, this.selectedOrder!.id, request)
+      : this.orderService.create(this.chef.id, request);
+    orderFunction.pipe(
+      tap(() => {
+        this.toast.showSuccess(isUpdate ? 'Order updated' : 'Order created');
+        this.loadChef(this.chef!.id);
+      })
     ).subscribe();
   }
 
@@ -108,8 +127,9 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef || !this.orderToDelete) {
       return;
     }
-    this.store.dispatch(new DeleteOrder(this.chef.id, this.orderToDelete.id)).pipe(
+    this.orderService.delete(this.chef.id, this.orderToDelete.id).pipe(
       tap(() => {
+        this.toast.showSuccess('Order deleted');
         this.orderToDelete = null;
         this.loadChef(this.chef!.id);
       })
