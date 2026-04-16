@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
@@ -22,13 +22,13 @@ import { ToastService } from '../../../../core/services/toast.service';
 })
 export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  protected readonly loading = signal(false);
-  protected readonly error = signal<string | null>(null);
   private readonly auth = inject(AuthService);
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
 
+  isLoading = false;
+  errorMessage: string | null = null;
   form!: FormGroup;
 
   ngOnInit(): void {
@@ -39,9 +39,10 @@ export class LoginComponent implements OnInit {
     if (!this.form.valid) {
       return;
     }
+
     const { email, password } = this.form.value;
-    this.loading.set(true);
-    this.error.set(null);
+    this.isLoading = true;
+    this.errorMessage = null;
     this.auth.login(email, password).pipe(
       switchMap(() => this.userService.getMe()),
       tap(user => {
@@ -54,10 +55,10 @@ export class LoginComponent implements OnInit {
         }
       }),
       catchError((err: { error?: { message?: string } }) => {
-        this.error.set(err.error?.message ?? 'Login failed');
+        this.errorMessage = err.error?.message ?? 'Login failed';
         return of(null);
       }),
-      finalize(() => this.loading.set(false))
+      finalize(() => this.isLoading = false)
     ).subscribe();
   }
 

@@ -9,7 +9,7 @@ export const roleGuard: CanActivateFn = route => {
   const router = inject(Router);
 
   const allowedRoles: Role[] = route.data?.['roles'] ?? [];
-  const role = userService.userRole();
+  const role = userService.userRole;
 
   if (!role || !allowedRoles.includes(role)) {
     router.navigate([`/${ AppRoutes.DASHBOARD }`]).then();

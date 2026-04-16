@@ -14,26 +14,18 @@ export class OrderService {
 
   getAll(filter: OrderFilter = {}): Observable<CollectionResponse<Order>> {
     const params = buildQueryParams(filter);
-    return this.http.get<CollectionResponse<Order>>(`${ API_CONFIG.ORDERS_URL }/v1`, { params });
-  }
-
-  getAllByChefId(chefId: string, filter: OrderFilter = {}): Observable<CollectionResponse<Order>> {
-    const params = buildQueryParams(filter);
-    return this.http.get<CollectionResponse<Order>>(
-      `${ API_CONFIG.CHEFS_URL }/v1/${ chefId }/orders`,
-      { params }
-    );
+    return this.http.get<CollectionResponse<Order>>(`${API_CONFIG.ORDERS_URL}`, { params });
   }
 
   create(chefId: string, request: OrderRequest): Observable<Order> {
-    return this.http.post<Order>(`${ API_CONFIG.CHEFS_URL }/v1/${ chefId }/orders`, request);
+    return this.http.post<Order>(`${API_CONFIG.CHEFS_URL}/${chefId}/orders`, request);
   }
 
   update(chefId: string, orderId: string, request: OrderRequest): Observable<Order> {
-    return this.http.put<Order>(`${ API_CONFIG.CHEFS_URL }/v1/${ chefId }/orders/${ orderId }`, request);
+    return this.http.put<Order>(`${API_CONFIG.CHEFS_URL}/${chefId}/orders/${orderId}`, request);
   }
 
   delete(chefId: string, orderId: string): Observable<void> {
-    return this.http.delete<void>(`${ API_CONFIG.CHEFS_URL }/v1/${ chefId }/orders/${ orderId }`);
+    return this.http.delete<void>(`${API_CONFIG.CHEFS_URL}/${chefId}/orders/${orderId}`);
   }
 }

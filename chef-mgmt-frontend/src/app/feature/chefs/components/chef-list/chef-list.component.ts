@@ -13,7 +13,6 @@ import { Chef } from '../../models/chef.model';
 import { ChefRequest } from '../../models/chef-request.model';
 import { ChefFilter } from '../../models/chef-filter.model';
 import { SortDirection } from '../../../../core/models/sort-direction.enum';
-import { CollectionResponse } from '../../../../shared/models/collection.model';
 import { ChefFormComponent } from '../../modals/chef-form/chef-form.component';
 import { DeleteModalComponent } from '../../../../shared/modals/delete-modal/delete-modal.component';
 import { BaseListComponent } from '../../../../shared/components/base-list/base-list.component';
@@ -31,15 +30,10 @@ import { ToastService } from '../../../../core/services/toast.service';
   templateUrl: './chef-list.component.html'
 })
 export class ChefListComponent extends BaseListComponent {
-  result: CollectionResponse<Chef> = {
-    pageNumber: 0,
-    pageSize: 0,
-    totalPages: 0,
-    totalElements: 0,
-    elements: []
-  };
   private readonly chefService = inject(ChefService);
   private readonly toast = inject(ToastService);
+
+  totalElements = 0;
   chefs: Chef[] = [];
   formVisible = false;
   selectedChef: Chef | null = null;
@@ -62,10 +56,10 @@ export class ChefListComponent extends BaseListComponent {
 
   onSave(request: ChefRequest): void {
     const isUpdate = !!this.selectedChef;
-    const obs = isUpdate
+    const chefFunction = isUpdate
       ? this.chefService.update(this.selectedChef!.id, request)
       : this.chefService.create(request);
-    obs.pipe(
+    chefFunction.pipe(
       tap(() => {
         this.toast.showSuccess(isUpdate ? 'Chef updated' : 'Chef created');
         this.loadData();
@@ -97,11 +91,13 @@ export class ChefListComponent extends BaseListComponent {
       sortBy: this.sortField || undefined,
       sortDirection: this.sortOrder === -1 ? SortDirection.DESC : SortDirection.ASC,
       pageNumber: this.page,
-      pageSize: this.rows
+      pageSize: this.size
     };
-    this.chefService.getAll(filter).subscribe(result => {
-      this.result = result;
-      this.chefs = result?.elements ?? [];
-    });
+    this.chefService.getAll(filter).pipe(
+      tap(result => {
+        this.totalElements = result.totalElements;
+        this.chefs = result.elements;
+      })
+    ).subscribe();
   }
 }

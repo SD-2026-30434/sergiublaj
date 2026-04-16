@@ -14,22 +14,22 @@ export class ChefService {
 
   getAll(filter: ChefFilter = {}): Observable<CollectionResponse<Chef>> {
     const params = buildQueryParams(filter);
-    return this.http.get<CollectionResponse<Chef>>(`${ API_CONFIG.CHEFS_URL }/v1`, { params });
+    return this.http.get<CollectionResponse<Chef>>(`${API_CONFIG.CHEFS_URL}`, { params });
   }
 
   getById(id: string): Observable<Chef> {
-    return this.http.get<Chef>(`${ API_CONFIG.CHEFS_URL }/v1/${ id }`);
+    return this.http.get<Chef>(`${API_CONFIG.CHEFS_URL}/${id}`);
   }
 
   create(request: ChefRequest): Observable<Chef> {
-    return this.http.post<Chef>(`${ API_CONFIG.CHEFS_URL }/v1`, request);
+    return this.http.post<Chef>(`${API_CONFIG.CHEFS_URL}`, request);
   }
 
   update(id: string, request: ChefRequest): Observable<Chef> {
-    return this.http.put<Chef>(`${ API_CONFIG.CHEFS_URL }/v1/${ id }`, request);
+    return this.http.put<Chef>(`${API_CONFIG.CHEFS_URL}/${id}`, request);
   }
 
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${ API_CONFIG.CHEFS_URL }/v1/${ id }`);
+    return this.http.delete<void>(`${API_CONFIG.CHEFS_URL}/${id}`);
   }
 }

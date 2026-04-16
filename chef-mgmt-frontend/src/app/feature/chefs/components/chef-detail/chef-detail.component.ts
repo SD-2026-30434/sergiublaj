@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, finalize, tap } from 'rxjs/operators';
@@ -40,8 +40,7 @@ export class ChefDetailComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly toast = inject(ToastService);
 
-  protected readonly loading = signal(true);
-
+  isLoading = true;
   chef: Chef | null = null;
   orders: Order[] = [];
   chefFormVisible = false;
@@ -56,7 +55,7 @@ export class ChefDetailComponent implements OnInit {
   }
 
   loadChef(id: string): void {
-    this.loading.set(true);
+    this.isLoading = true;
     this.chefService.getById(id).pipe(
       tap(chef => {
         this.chef = chef;
@@ -67,12 +66,12 @@ export class ChefDetailComponent implements OnInit {
         this.orders = [];
         return of(null);
       }),
-      finalize(() => this.loading.set(false))
+      finalize(() => this.isLoading = false)
     ).subscribe();
   }
 
   goBack(): void {
-    const target = this.userService.userRole() === Role.ADMIN ? AppRoutes.CHEFS : AppRoutes.DASHBOARD;
+    const target = this.userService.userRole === Role.ADMIN ? AppRoutes.CHEFS : AppRoutes.DASHBOARD;
     this.router.navigate([`/${target}`]).then();
   }
 
@@ -84,6 +83,7 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef) {
       return;
     }
+
     this.chefService.update(this.chef.id, request).pipe(
       tap(() => {
         this.toast.showSuccess('Chef updated');
@@ -106,6 +106,7 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef) {
       return;
     }
+
     const isUpdate = !!this.selectedOrder;
     const orderFunction = isUpdate
       ? this.orderService.update(this.chef.id, this.selectedOrder!.id, request)
@@ -127,6 +128,7 @@ export class ChefDetailComponent implements OnInit {
     if (!this.chef || !this.orderToDelete) {
       return;
     }
+
     this.orderService.delete(this.chef.id, this.orderToDelete.id).pipe(
       tap(() => {
         this.toast.showSuccess('Order deleted');

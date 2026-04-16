@@ -7,5 +7,6 @@ export function buildQueryParams(filter: Record<string, any>): HttpParams {
       params = params.set(key, value);
     }
   }
+
   return params;
 }

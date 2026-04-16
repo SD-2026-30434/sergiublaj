@@ -1,6 +1,10 @@
 export const API_CONFIG = {
-  baseUrl: '/api',
-  AUTH_URL: '/auth',
-  CHEFS_URL: '/chefs',
-  ORDERS_URL: '/orders'
+  BASE_URL: '/api',
+
+  AUTH_URL: '/auth/v1',
+  CHEFS_URL: '/chefs/v1',
+  ORDERS_URL: '/orders/v1',
+  USERS_URL: '/users/v1',
+
+  PAGE_SIZE: 20
 };

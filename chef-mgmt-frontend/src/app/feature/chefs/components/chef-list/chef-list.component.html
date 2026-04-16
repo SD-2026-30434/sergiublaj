@@ -9,10 +9,10 @@
 <p-table
   [value]="chefs"
   [paginator]="true"
-  [rows]="rows"
-  [totalRecords]="result.totalElements"
+  [rows]="size"
+  [totalRecords]="totalElements"
   [rowsPerPageOptions]="[5, 10, 25]"
-  [first]="page * rows"
+  [first]="page * size"
   [sortField]="sortField"
   [sortOrder]="sortOrder"
   [lazy]="true"
@@ -35,7 +35,7 @@
       <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
       <th pSortableColumn="email">Email <p-sortIcon field="email" /></th>
       <th pSortableColumn="birthDate">Birth Date <p-sortIcon field="birthDate" /></th>
-      <th pSortableColumn="numberOfStars">Rating <p-sortIcon field="numberOfStars" /></th>
+      <th pSortableColumn="rating">Rating <p-sortIcon field="rating" /></th>
       <th class="actions-col-wide">Actions</th>
     </tr>
   </ng-template>

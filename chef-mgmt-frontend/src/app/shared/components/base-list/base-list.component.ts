@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { SortEvent } from 'primeng/api';
-import { APP_CONFIG } from '../../../core/config/app.config';
+import { API_CONFIG } from '../../../core/config/api.config';
 import { SortDirection } from '../../../core/models/sort-direction.enum';
 
 @Component({ template: '' })
@@ -16,7 +16,7 @@ export abstract class BaseListComponent implements OnInit {
   sortField = '';
   sortOrder = 1;
   page = 0;
-  rows = APP_CONFIG.pageSize;
+  size = API_CONFIG.PAGE_SIZE;
 
   ngOnInit(): void {
     // OBSERVER PATTERN
@@ -41,7 +41,7 @@ export abstract class BaseListComponent implements OnInit {
   onPage(event: any): void {
     this.updateQueryParams({
       page: event.first / event.rows,
-      rows: event.rows
+      size: event.rows
     });
   }
 
@@ -66,6 +66,6 @@ export abstract class BaseListComponent implements OnInit {
     this.sortField = params['sortField'] || '';
     this.sortOrder = params['sortOrder'] === SortDirection.DESC ? -1 : 1;
     this.page = Number(params['page']) || 0;
-    this.rows = Number(params['rows']) || APP_CONFIG.pageSize;
+    this.size = Number(params['size']) || API_CONFIG.PAGE_SIZE;
   }
 }

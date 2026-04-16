@@ -49,7 +49,7 @@ public final class OrderSpecification {
             case "itemname" -> "itemName";
             case "totalprice" -> "totalPrice";
             case "orderedat" -> "orderedAt";
-            case "chefid" -> "chef.id";
+            case "chefname" -> "chef.name";
             default -> "id";
         };
     }

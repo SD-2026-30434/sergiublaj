@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { ToastService } from '../services/toast.service';
 import { AppRoutes } from '../models/app-routes.enum';
-import { API_CONFIG } from '../config/api.config';
-import { USERS_ME_PATH, UserService } from '../../feature/auth/services/user.service';
+import { UserService } from '../../feature/auth/services/user.service';
 
-const AUTH_LOGIN_PATH = `${ API_CONFIG.AUTH_URL }/v1/login`;
-const AUTH_LOGOUT_PATH = `${ API_CONFIG.AUTH_URL }/v1/logout`;
+const IGNORED_PATHS = ['/auth/', '/users/'];
 
 export const httpResponseInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -17,26 +15,18 @@ export const httpResponseInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError(error => {
-      const isAuthEndpoint =
-        req.url.includes(AUTH_LOGIN_PATH) || req.url.includes(AUTH_LOGOUT_PATH);
-      const isSessionCheckEndpoint = req.url.includes(USERS_ME_PATH);
-      const isAuthRelatedEndpoint = isAuthEndpoint || isSessionCheckEndpoint;
+      const isIgnored = IGNORED_PATHS.some(path => req.url.includes(path));
 
-      if (error.status === 401) {
-        if (!isAuthEndpoint) {
-          userService.setCurrentUser(null);
-          if (router.url !== `/${ AppRoutes.LOGIN }`) {
-            router.navigate([`/${ AppRoutes.LOGIN }`]).then();
-          }
-        }
-      } else if (error.status === 403) {
-        if (!isSessionCheckEndpoint) {
-          toastService.showError('Access denied.');
-          router.navigate([`/${ AppRoutes.DASHBOARD }`]).then();
-        }
-      } else if (!isAuthRelatedEndpoint && error.error?.message) {
+      if (error.status === 401 && !isIgnored) {
+        userService.setCurrentUser(null);
+        router.navigate([`/${AppRoutes.LOGIN}`]).then();
+      } else if (error.status === 403 && !isIgnored) {
+        toastService.showError('Access denied.');
+        router.navigate([`/${AppRoutes.DASHBOARD}`]).then();
+      } else if (!isIgnored && error.error?.message) {
         toastService.showError(error.error.message);
       }
+
       return throwError(() => error);
     })
   );

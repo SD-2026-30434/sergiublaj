@@ -15,8 +15,8 @@ public record OrderFilterDTO(
         UUID chefId,
 
         @Pattern(
-                regexp = "(?i)id|itemName|totalPrice|orderedAt|chefId",
-                message = "Sort by must be one of: id, itemName, totalPrice, orderedAt, chefId."
+                regexp = "(?i)id|itemName|totalPrice|orderedAt|chefName",
+                message = "Sort by must be one of: id, itemName, totalPrice, orderedAt, chefName."
         )
         String sortBy,
 

@@ -8,10 +8,10 @@ export class AuthService {
   private readonly http = inject(HttpClient);
 
   login(email: string, password: string): Observable<void> {
-    return this.http.post<void>(`${ API_CONFIG.AUTH_URL }/v1/login`, { email, password });
+    return this.http.post<void>(`${API_CONFIG.AUTH_URL}/login`, { email, password });
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${ API_CONFIG.AUTH_URL }/v1/logout`, {});
+    return this.http.post<void>(`${API_CONFIG.AUTH_URL}/logout`, {});
   }
 }

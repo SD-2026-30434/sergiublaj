@@ -1,4 +1,4 @@
-<h2>Welcome{{ name() ? ', ' + name() : '' }}!</h2>
+<h2>Welcome{{ displayName ? ', ' + displayName : '' }}!</h2>
 
 <p>
   This is the <strong>Chef Management System</strong>, a full-stack web application developed as part of the
@@ -21,7 +21,7 @@
   <li>Client state with Angular signals and services</li>
 </ul>
 
-@if (isAdmin()) {
+@if (isAdmin) {
   <p>You are logged in as an <strong>Administrator</strong>. Use the navigation bar to manage chefs and orders.</p>
 } @else {
   <p>You are logged in as a <strong>Chef</strong>. Use the navigation bar to view and manage your profile and orders.</p>

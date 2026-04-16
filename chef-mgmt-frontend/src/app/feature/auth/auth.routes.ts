@@ -5,5 +5,9 @@ export const authRoutes: Routes = [
   {
     path: AppRoutes.EMPTY,
     loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: AppRoutes.ANY,
+    redirectTo: AppRoutes.EMPTY
   }
 ];

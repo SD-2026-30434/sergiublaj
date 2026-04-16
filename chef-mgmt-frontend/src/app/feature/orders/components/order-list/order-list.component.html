@@ -1,27 +1,12 @@
 <h2>Orders</h2>
 
-<p-toolbar class="mb-4">
-  <ng-template #end>
-    <p-select
-      [options]="chefOptions"
-      [formControl]="chefFilterControl"
-      (onChange)="filterByChef()"
-      placeholder="Filter by Chef"
-      [showClear]="true"
-      optionLabel="label"
-      optionValue="value"
-      class="order-chef-filter"
-    />
-  </ng-template>
-</p-toolbar>
-
 <p-table
   [value]="orders"
   [paginator]="true"
-  [rows]="rows"
-  [totalRecords]="result.totalElements"
+  [rows]="size"
+  [totalRecords]="totalElements"
   [rowsPerPageOptions]="[5, 10, 25]"
-  [first]="page * rows"
+  [first]="page * size"
   [sortField]="sortField"
   [sortOrder]="sortOrder"
   [lazy]="true"
@@ -43,7 +28,7 @@
     <tr>
       <th pSortableColumn="itemName">Item <p-sortIcon field="itemName" /></th>
       <th pSortableColumn="totalPrice">Price <p-sortIcon field="totalPrice" /></th>
-      <th>Chef</th>
+      <th pSortableColumn="chefName">Chef <p-sortIcon field="chefName" /></th>
       <th pSortableColumn="orderedAt">Ordered At <p-sortIcon field="orderedAt" /></th>
       <th class="actions-col">Actions</th>
     </tr>

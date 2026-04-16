@@ -8,5 +8,6 @@ public record OrderResponseDTO(
         String itemName,
         Double totalPrice,
         ZonedDateTime orderedAt,
-        UUID chefId
+        UUID chefId,
+        String chefName
 ) { }

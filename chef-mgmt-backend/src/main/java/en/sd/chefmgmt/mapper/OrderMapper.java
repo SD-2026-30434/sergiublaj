@@ -24,6 +24,7 @@ public interface OrderMapper extends DtoMapper<OrderEntity, OrderRequestDTO, Ord
 
     @Override
     @Mapping(target = "chefId", source = "chef.id")
+    @Mapping(target = "chefName", source = "chef.name")
     OrderResponseDTO convertEntityToResponseDto(OrderEntity entity);
 
     @Mapping(target = "id", ignore = true)
