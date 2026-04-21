@@ -12,17 +12,17 @@ export const routes: Routes = [
   {
     path: AppRoutes.DASHBOARD,
     loadChildren: () => import('./feature/dashboard/dashboard.routes').then(m => m.dashboardRoutes),
-    canActivate: [authGuard]
+    canMatch: [authGuard]
   },
   {
     path: AppRoutes.CHEFS,
     loadChildren: () => import('./feature/chefs/chefs.routes').then(m => m.chefsRoutes),
-    canActivate: [authGuard]
+    canMatch: [authGuard]
   },
   {
     path: AppRoutes.ORDERS,
     loadChildren: () => import('./feature/orders/orders.routes').then(m => m.ordersRoutes),
-    canActivate: [authGuard, roleGuard],
+    canMatch: [authGuard, roleGuard],
     data: {
       roles: [Role.ADMIN]
     }
