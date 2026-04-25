@@ -7,12 +7,17 @@ import en.sd.chefmgmt.dto.order.OrderResponseDTO;
 import en.sd.chefmgmt.exception.DataNotFoundException;
 import en.sd.chefmgmt.exception.ExceptionCode;
 import en.sd.chefmgmt.mapper.OrderMapper;
+import en.sd.chefmgmt.mapper.SendOrderMailRequestMapper;
 import en.sd.chefmgmt.model.ChefEntity;
 import en.sd.chefmgmt.model.OrderEntity;
 import en.sd.chefmgmt.repository.chef.ChefRepository;
 import en.sd.chefmgmt.repository.order.OrderRepository;
 import en.sd.chefmgmt.repository.order.OrderSpecification;
+import en.sd.chefmgmt.service.mailing.client.MailClient;
+import en.sd.chefmgmt.service.mailing.client.SendOrderMailRequestDTO;
+import en.sd.chefmgmt.service.mailing.client.SendOrderMailResponseDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceBean implements OrderService {
@@ -27,6 +33,8 @@ public class OrderServiceBean implements OrderService {
     private final OrderRepository orderRepository;
     private final ChefRepository chefRepository;
     private final OrderMapper orderMapper;
+    private final MailClient mailClient;
+    private final SendOrderMailRequestMapper sendOrderMailRequestMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -82,8 +90,17 @@ public class OrderServiceBean implements OrderService {
 
         OrderEntity toAdd = orderMapper.convertRequestDtoToEntity(orderRequestDTO, chefEntity);
         OrderEntity added = orderRepository.save(toAdd);
+        OrderResponseDTO response = orderMapper.convertEntityToResponseDto(added);
 
-        return orderMapper.convertEntityToResponseDto(added);
+        SendOrderMailRequestDTO mailRequest = sendOrderMailRequestMapper.toRequest(chefEntity.getId(), added.getId());
+        try {
+            SendOrderMailResponseDTO mailResponse = mailClient.sendOrderMail(mailRequest);
+            log.info("Order mail sent: order={} to={} status={}", added.getId(), mailResponse.to(), mailResponse.status());
+        } catch (Exception e) {
+            log.error("Order mail failed: order={} chef={}: {}", added.getId(), chefEntity.getId(), e.getMessage());
+        }
+
+        return response;
     }
 
     @Override
