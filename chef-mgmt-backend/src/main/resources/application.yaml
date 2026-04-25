@@ -24,3 +24,5 @@ app:
   security:
     login-url: /auth/v1/login
     allowed-urls: /auth/v1/logout,/swagger-ui/**,/swagger-ui.html,/v3/api-docs/**,/v3/api-docs.yaml,/error
+chef-mgmt-mail:
+  base-url: http://localhost:8888/api
