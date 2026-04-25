@@ -1,0 +1,14 @@
+# Copy this file to application-local.yaml (gitignored) and fill in real
+# Mailtrap credentials from https://mailtrap.io/inboxes -> SMTP Settings.
+spring:
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: <your-mailtrap-username>
+    password: <your-mailtrap-password>
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
