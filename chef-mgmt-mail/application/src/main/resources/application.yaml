@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: chef-mgmt-mail
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chef_mgmt_db
+    username: postgres
+    password: postgres
+server:
+  port: 8888
+  servlet:
+    context-path: '/api'
