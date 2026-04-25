@@ -30,6 +30,9 @@ public interface OrderMailController {
             @ApiResponse(responseCode = "400", description = "Invalid request body",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "404", description = "Chef or order not found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionBody.class)))

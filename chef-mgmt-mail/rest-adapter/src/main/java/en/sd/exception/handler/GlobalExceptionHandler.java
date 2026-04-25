@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ExceptionBody handleDataNotFoundException(DataNotFoundException exception) {
         return ExceptionBody.builder()
                 .timestamp(ZonedDateTime.now())
