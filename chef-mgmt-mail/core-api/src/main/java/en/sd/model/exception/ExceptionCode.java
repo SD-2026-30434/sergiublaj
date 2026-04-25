@@ -9,11 +9,9 @@ public enum ExceptionCode {
     // Validation & Constraint Violations
     VALIDATION_ERROR("Validation failed.", "ERR_1001"),
 
-    // Mail Errors
-    SYNC_MAIL_ERROR("Sync mail error.", "ERR_2001"),
-
-    // User Errors
-    USER_NOT_FOUND("User with email %s not found.", "ERR_3001"),
+    // Domain Errors
+    CHEF_NOT_FOUND("Chef with id %s not found.", "ERR_3001"),
+    ORDER_NOT_FOUND("Order with id %s not found.", "ERR_3002"),
 
     // Server Errors
     SERVER_ERROR("Internal server error.", "ERR_5000");

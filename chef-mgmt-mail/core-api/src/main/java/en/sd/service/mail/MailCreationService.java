@@ -1,10 +1,9 @@
 package en.sd.service.mail;
 
-import java.io.IOException;
-
-import en.sd.model.mail.MailRequest;
+import en.sd.model.domain.Chef;
+import en.sd.model.domain.Order;
 
 public interface MailCreationService {
 
-    String createMail(MailRequest mailRequest) throws IOException;
+    String renderOrderPlaced(Chef chef, Order order);
 }
