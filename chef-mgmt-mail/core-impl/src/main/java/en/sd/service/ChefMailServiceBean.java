@@ -32,6 +32,7 @@ public class ChefMailServiceBean implements ChefMailService {
         String htmlBody = mailCreationService.render(MailType.CHEF_WELCOME, Map.of("chef", chef));
         SendingStatus status = mailSenderService.sendHtml(chef.email(), CHEF_WELCOME_SUBJECT, htmlBody);
         UUID correlationId = UUID.randomUUID();
+
         log.info("Chef welcome mail dispatched: id={} chef={} to={} status={}", correlationId, chefId, chef.email(), status);
 
         return new ChefMailResult(correlationId, chef.email(), status);
