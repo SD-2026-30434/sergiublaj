@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -37,6 +37,7 @@ export class OrderListComponent extends BaseListComponent {
   totalElements = 0;
   orders: Order[] = [];
   formVisible = false;
+  formLoading = false;
   selectedOrder: Order | null = null;
   deleteModalVisible = false;
   orderToDelete: Order | null = null;
@@ -51,11 +52,14 @@ export class OrderListComponent extends BaseListComponent {
       return;
     }
 
+    this.formLoading = true;
     this.orderService.update(this.selectedOrder.chefId, this.selectedOrder.id, request).pipe(
       tap(() => {
         this.toast.showSuccess('Order updated');
+        this.formVisible = false;
         this.loadData();
-      })
+      }),
+      finalize(() => this.formLoading = false)
     ).subscribe();
   }
 

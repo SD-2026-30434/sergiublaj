@@ -99,6 +99,7 @@
   <app-order-form
     [(visible)]="orderFormVisible"
     [order]="selectedOrder"
+    [loading]="orderFormLoading"
     (save)="onOrderSave($event)"
   />
 

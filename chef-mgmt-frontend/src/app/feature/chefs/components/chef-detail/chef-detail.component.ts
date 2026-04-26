@@ -45,6 +45,7 @@ export class ChefDetailComponent implements OnInit {
   orders: Order[] = [];
   chefFormVisible = false;
   orderFormVisible = false;
+  orderFormLoading = false;
   selectedOrder: Order | null = null;
   deleteModalVisible = false;
   orderToDelete: Order | null = null;
@@ -111,11 +112,14 @@ export class ChefDetailComponent implements OnInit {
     const orderFunction = isUpdate
       ? this.orderService.update(this.chef.id, this.selectedOrder!.id, request)
       : this.orderService.create(this.chef.id, request);
+    this.orderFormLoading = true;
     orderFunction.pipe(
       tap(() => {
         this.toast.showSuccess(isUpdate ? 'Order updated' : 'Order created');
+        this.orderFormVisible = false;
         this.loadChef(this.chef!.id);
-      })
+      }),
+      finalize(() => this.orderFormLoading = false)
     ).subscribe();
   }
 

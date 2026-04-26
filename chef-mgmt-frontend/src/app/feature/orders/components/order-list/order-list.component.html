@@ -55,6 +55,7 @@
 <app-order-form
   [(visible)]="formVisible"
   [order]="selectedOrder"
+  [loading]="formLoading"
   (save)="onSave($event)"
 />
 
