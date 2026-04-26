@@ -18,9 +18,8 @@
 
     <h3 style="margin-top:24px;color:#34495e;">Order details</h3>
     <ul style="padding-left:20px;">
-        <li><strong>Order ID:</strong> <span th:text="${order.id()}"></span></li>
         <li><strong>Item:</strong> <span th:text="${order.itemName()}"></span></li>
-        <li><strong>Price:</strong> <span th:text="${order.totalPrice()}"></span></li>
+        <li><strong>Price:</strong> $<span th:text="${order.totalPrice()}"></span></li>
         <li>
             <strong>Placed at:</strong>
             <span th:text="${#temporals.format(order.orderedAt(), 'yyyy-MM-dd HH:mm')}"></span>

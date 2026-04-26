@@ -2,6 +2,7 @@ package en.sd.service;
 
 import en.sd.model.mail.SendingStatus;
 import en.sd.service.mail.MailSenderService;
+import en.sd.util.MailUtil;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +25,9 @@ public class MailSenderServiceBean implements MailSenderService {
     public SendingStatus sendHtml(String to, String subject, String htmlBody) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setFrom(fromAddress);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(htmlBody, true);
+            MailUtil.createMimeMessageHelper(fromAddress, to, subject, message, htmlBody);
             javaMailSender.send(message);
+
             return SendingStatus.SUCCESS;
         } catch (Exception e) {
             log.error("Failed to send mail to {}: {}", to, e.getMessage());

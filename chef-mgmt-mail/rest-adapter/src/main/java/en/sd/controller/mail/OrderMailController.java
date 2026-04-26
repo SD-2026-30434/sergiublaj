@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping("/v1/mails/orders")
+@RequestMapping("/mails/v1/orders")
 @Tag(name = "Order Mail", description = "Send the order-placed email to the chef who received an order")
 public interface OrderMailController {
 

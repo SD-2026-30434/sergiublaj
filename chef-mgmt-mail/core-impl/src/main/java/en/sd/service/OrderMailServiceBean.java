@@ -35,6 +35,7 @@ public class OrderMailServiceBean implements OrderMailService {
         SendingStatus status = mailSenderService.sendHtml(chef.email(), ORDER_PLACED_SUBJECT, htmlBody);
         UUID correlationId = UUID.randomUUID();
         log.info("Order mail dispatched: id={} order={} to={} status={}", correlationId, orderId, chef.email(), status);
+
         return new OrderMailResult(correlationId, chef.email(), status);
     }
 }

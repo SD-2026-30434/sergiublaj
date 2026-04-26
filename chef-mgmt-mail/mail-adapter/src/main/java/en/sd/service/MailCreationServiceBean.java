@@ -23,6 +23,7 @@ public class MailCreationServiceBean implements MailCreationService {
         Context context = new Context();
         context.setVariable(CHEF_VAR, chef);
         context.setVariable(ORDER_VAR, order);
+
         return templateEngine.process(ORDER_PLACED_TEMPLATE, context);
     }
 }

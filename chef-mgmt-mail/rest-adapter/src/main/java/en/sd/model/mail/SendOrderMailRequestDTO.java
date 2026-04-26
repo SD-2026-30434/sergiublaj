@@ -7,5 +7,4 @@ import java.util.UUID;
 public record SendOrderMailRequestDTO(
         @NotNull UUID chefId,
         @NotNull UUID orderId
-) {
-}
+) { }

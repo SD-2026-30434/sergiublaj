@@ -6,9 +6,11 @@ import en.sd.model.mail.SendOrderMailResponseDTO;
 import en.sd.model.mapper.OrderMailResultMapper;
 import en.sd.service.mail.OrderMailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 public class OrderMailControllerBean implements OrderMailController {
 
@@ -17,7 +19,10 @@ public class OrderMailControllerBean implements OrderMailController {
 
     @Override
     public SendOrderMailResponseDTO send(SendOrderMailRequestDTO request) {
+        log.info("[ORDER_MAIL] Sending order mail: {}", request);
+
         OrderMailResult result = orderMailService.sendOrderMail(request.chefId(), request.orderId());
+
         return orderMailResultMapper.toResponse(result);
     }
 }

@@ -1,6 +1,5 @@
 package en.sd.service;
 
-import en.sd.entity.OrderEntity;
 import en.sd.mapper.OrderMapper;
 import en.sd.model.domain.Order;
 import en.sd.model.exception.DataNotFoundException;
@@ -23,8 +22,8 @@ public class OrderServiceBean implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public Order getById(UUID id) {
-        OrderEntity entity = orderRepository.findById(id)
+        return orderRepository.findById(id)
+                .map(orderMapper::toDomain)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.ORDER_NOT_FOUND, id));
-        return orderMapper.toDomain(entity);
     }
 }

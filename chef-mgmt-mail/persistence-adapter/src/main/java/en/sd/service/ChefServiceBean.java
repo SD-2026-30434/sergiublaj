@@ -1,6 +1,5 @@
 package en.sd.service;
 
-import en.sd.entity.ChefEntity;
 import en.sd.mapper.ChefMapper;
 import en.sd.model.domain.Chef;
 import en.sd.model.exception.DataNotFoundException;
@@ -23,8 +22,8 @@ public class ChefServiceBean implements ChefService {
     @Override
     @Transactional(readOnly = true)
     public Chef getById(UUID id) {
-        ChefEntity entity = chefRepository.findById(id)
+        return chefRepository.findById(id)
+                .map(chefMapper::toDomain)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, id));
-        return chefMapper.toDomain(entity);
     }
 }

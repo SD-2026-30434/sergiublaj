@@ -9,5 +9,4 @@ public record Order(
         Double totalPrice,
         ZonedDateTime orderedAt,
         UUID chefId
-) {
-}
+) { }
