@@ -66,7 +66,7 @@ public class ChefServiceBean implements ChefService {
     // @Transactional
     // With @Transactional, chef saved won't be commited.
     // chef-mgmt-mail won't find the chef in database and welcome mail won't be sent
-    // Will be fixed with another approach in next lab
+    // We could use multithreading but...
     public ChefWithOrdersResponseDTO save(ChefRequestDTO chefRequestDTO) {
         if (chefRepository.existsByEmail(chefRequestDTO.email())) {
             throw new DuplicateDataException(ExceptionCode.EMAIL_TAKEN, chefRequestDTO.email());
