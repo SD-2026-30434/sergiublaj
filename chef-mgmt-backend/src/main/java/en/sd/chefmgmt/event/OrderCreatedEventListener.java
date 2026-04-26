@@ -21,6 +21,7 @@ public class OrderCreatedEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onOrderCreated(OrderCreatedEvent event) {
         log.info("[ORDER_CREATED_EVENT] Publishing: chef={} order={}", event.chefId(), event.orderId());
+
         rabbitTemplate.convertAndSend(orderMailQueueName, event);
     }
 }
