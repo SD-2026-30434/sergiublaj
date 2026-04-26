@@ -63,7 +63,7 @@ public class ChefServiceBean implements ChefService {
     }
 
     @Override
-//    @Transactional
+    // @Transactional
     // With @Transactional, chef saved won't be commited.
     // chef-mgmt-mail won't find the chef in database and welcome mail won't be sent
     // Will be fixed with another approach in next lab
