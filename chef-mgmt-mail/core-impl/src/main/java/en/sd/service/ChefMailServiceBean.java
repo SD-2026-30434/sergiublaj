@@ -2,6 +2,7 @@ package en.sd.service;
 
 import en.sd.model.domain.Chef;
 import en.sd.model.mail.ChefMailResult;
+import en.sd.model.mail.MailType;
 import en.sd.model.mail.SendingStatus;
 import en.sd.service.mail.ChefMailService;
 import en.sd.service.mail.MailCreationService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -27,7 +29,7 @@ public class ChefMailServiceBean implements ChefMailService {
     @Override
     public ChefMailResult sendChefWelcomeMail(UUID chefId) {
         Chef chef = chefService.getById(chefId);
-        String htmlBody = mailCreationService.renderChefWelcome(chef);
+        String htmlBody = mailCreationService.render(MailType.CHEF_WELCOME, Map.of("chef", chef));
         SendingStatus status = mailSenderService.sendHtml(chef.email(), CHEF_WELCOME_SUBJECT, htmlBody);
         UUID correlationId = UUID.randomUUID();
         log.info("Chef welcome mail dispatched: id={} chef={} to={} status={}", correlationId, chefId, chef.email(), status);
