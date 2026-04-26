@@ -1,5 +1,7 @@
-package en.sd.chefmgmt.model;
+package en.sd.chefmgmt.model.chef;
 
+import en.sd.chefmgmt.model.order.OrderEntity;
+import en.sd.chefmgmt.model.user.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

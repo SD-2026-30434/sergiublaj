@@ -1,7 +1,7 @@
 package en.sd.chefmgmt.repository.chef;
 
 import en.sd.chefmgmt.dto.chef.ChefFilterDTO;
-import en.sd.chefmgmt.model.ChefEntity;
+import en.sd.chefmgmt.model.chef.ChefEntity;
 import en.sd.chefmgmt.repository.EntitySpecification;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Sort;

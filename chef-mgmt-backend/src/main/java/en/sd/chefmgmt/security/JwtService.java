@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.security;
 
-import en.sd.chefmgmt.model.UserRole;
+import en.sd.chefmgmt.model.user.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

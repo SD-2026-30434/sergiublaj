@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.mapper;
 
-import en.sd.chefmgmt.service.mailing.client.SendOrderMailRequestDTO;
+import en.sd.chefmgmt.model.mail.SendOrderMailRequestDTO;
 import org.mapstruct.Mapper;
 
 import java.util.UUID;

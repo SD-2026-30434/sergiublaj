@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.dto.user;
 
-import en.sd.chefmgmt.model.UserRole;
+import en.sd.chefmgmt.model.user.UserRole;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

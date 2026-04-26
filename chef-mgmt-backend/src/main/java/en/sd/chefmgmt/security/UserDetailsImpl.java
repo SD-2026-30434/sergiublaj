@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.security;
 
-import en.sd.chefmgmt.model.UserRole;
+import en.sd.chefmgmt.model.user.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.jspecify.annotations.NonNull;

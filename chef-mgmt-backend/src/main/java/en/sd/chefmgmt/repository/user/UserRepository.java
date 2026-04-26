@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.repository.user;
 
-import en.sd.chefmgmt.model.UserEntity;
+import en.sd.chefmgmt.model.user.UserEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

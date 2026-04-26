@@ -1,8 +1,8 @@
 package en.sd.chefmgmt.service.user;
 
 import en.sd.chefmgmt.dto.user.UserResponseDTO;
-import en.sd.chefmgmt.model.ChefEntity;
-import en.sd.chefmgmt.model.UserEntity;
+import en.sd.chefmgmt.model.chef.ChefEntity;
+import en.sd.chefmgmt.model.user.UserEntity;
 import en.sd.chefmgmt.repository.user.UserRepository;
 import en.sd.chefmgmt.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.repository.chef;
 
-import en.sd.chefmgmt.model.ChefEntity;
+import en.sd.chefmgmt.model.chef.ChefEntity;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package en.sd.chefmgmt.service.mailing.client;
+package en.sd.chefmgmt.model.mail;
 
 import java.util.UUID;
 

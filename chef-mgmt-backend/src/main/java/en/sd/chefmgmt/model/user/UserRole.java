@@ -1,4 +1,4 @@
-package en.sd.chefmgmt.model;
+package en.sd.chefmgmt.model.user;
 
 public enum UserRole {
     ADMIN,

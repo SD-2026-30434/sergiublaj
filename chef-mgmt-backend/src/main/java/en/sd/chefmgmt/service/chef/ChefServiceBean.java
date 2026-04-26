@@ -9,7 +9,7 @@ import en.sd.chefmgmt.exception.DataNotFoundException;
 import en.sd.chefmgmt.exception.DuplicateDataException;
 import en.sd.chefmgmt.exception.ExceptionCode;
 import en.sd.chefmgmt.mapper.ChefMapper;
-import en.sd.chefmgmt.model.ChefEntity;
+import en.sd.chefmgmt.model.chef.ChefEntity;
 import en.sd.chefmgmt.repository.chef.ChefRepository;
 import en.sd.chefmgmt.repository.chef.ChefSpecification;
 import lombok.RequiredArgsConstructor;

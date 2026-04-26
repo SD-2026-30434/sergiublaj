@@ -2,8 +2,8 @@ package en.sd.chefmgmt.mapper;
 
 import en.sd.chefmgmt.dto.order.OrderRequestDTO;
 import en.sd.chefmgmt.dto.order.OrderResponseDTO;
-import en.sd.chefmgmt.model.ChefEntity;
-import en.sd.chefmgmt.model.OrderEntity;
+import en.sd.chefmgmt.model.chef.ChefEntity;
+import en.sd.chefmgmt.model.order.OrderEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

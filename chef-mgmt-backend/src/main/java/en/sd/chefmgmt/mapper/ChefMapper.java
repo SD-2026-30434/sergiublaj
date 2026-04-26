@@ -3,7 +3,7 @@ package en.sd.chefmgmt.mapper;
 import en.sd.chefmgmt.dto.chef.ChefRequestDTO;
 import en.sd.chefmgmt.dto.chef.ChefWithOrdersResponseDTO;
 import en.sd.chefmgmt.dto.chef.ChefWithoutOrdersResponseDTO;
-import en.sd.chefmgmt.model.ChefEntity;
+import en.sd.chefmgmt.model.chef.ChefEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

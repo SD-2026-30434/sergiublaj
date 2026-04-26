@@ -1,7 +1,7 @@
 package en.sd.chefmgmt.repository.order;
 
 import en.sd.chefmgmt.dto.order.OrderFilterDTO;
-import en.sd.chefmgmt.model.OrderEntity;
+import en.sd.chefmgmt.model.order.OrderEntity;
 import en.sd.chefmgmt.repository.EntitySpecification;
 import lombok.experimental.UtilityClass;
 

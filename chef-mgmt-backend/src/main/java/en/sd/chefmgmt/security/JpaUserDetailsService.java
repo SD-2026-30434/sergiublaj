@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.security;
 
-import en.sd.chefmgmt.model.UserEntity;
+import en.sd.chefmgmt.model.user.UserEntity;
 import en.sd.chefmgmt.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;

@@ -1,5 +1,6 @@
-package en.sd.chefmgmt.model;
+package en.sd.chefmgmt.model.user;
 
+import en.sd.chefmgmt.model.chef.ChefEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
