@@ -2,9 +2,6 @@
   [header]="order ? 'Edit Order' : 'New Order'"
   [(visible)]="visible"
   [modal]="true"
-  [closable]="!loading"
-  [closeOnEscape]="!loading"
-  [dismissableMask]="!loading"
   styleClass="form-dialog"
   (onHide)="onCancel()"
 >
@@ -37,7 +34,7 @@
   </form>
 
   <ng-template #footer>
-    <p-button label="Cancel" severity="secondary" (onClick)="onCancel()" [disabled]="loading" />
-    <p-button label="Save" icon="pi pi-check" (onClick)="onSubmit()" [disabled]="form.invalid || loading" [loading]="loading" />
+    <p-button label="Cancel" severity="secondary" (onClick)="onCancel()" />
+    <p-button label="Save" icon="pi pi-check" (onClick)="onSubmit()" [disabled]="form.invalid" />
   </ng-template>
 </p-dialog>

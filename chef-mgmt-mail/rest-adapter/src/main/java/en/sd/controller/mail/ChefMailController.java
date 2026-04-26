@@ -1,8 +1,8 @@
 package en.sd.controller.mail;
 
 import en.sd.model.exception.ExceptionBody;
-import en.sd.model.mail.SendOrderMailRequestDTO;
-import en.sd.model.mail.SendOrderMailResponseDTO;
+import en.sd.model.mail.ChefWelcomeMailRequestDTO;
+import en.sd.model.mail.ChefWelcomeMailResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping("/mails/v1/orders")
-@Tag(name = "Order Mail", description = "Send the order-placed email to the chef who received an order")
-public interface OrderMailController {
+@RequestMapping("/mails/v1/chefs")
+@Tag(name = "Chef Mail", description = "Send the welcome email to a newly created chef")
+public interface ChefMailController {
 
     @PostMapping
-    @Operation(summary = "Send order-placed mail", description = "Looks up the chef and order, renders a Thymeleaf email, and dispatches it via SMTP.")
+    @Operation(summary = "Send chef welcome mail", description = "Looks up the chef, renders a Thymeleaf email, and dispatches it via SMTP.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Mail successfully dispatched",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SendOrderMailResponseDTO.class))),
+                            schema = @Schema(implementation = ChefWelcomeMailResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionBody.class))),
-            @ApiResponse(responseCode = "404", description = "Chef or order not found",
+            @ApiResponse(responseCode = "404", description = "Chef not found",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
@@ -38,5 +38,5 @@ public interface OrderMailController {
                             schema = @Schema(implementation = ExceptionBody.class)))
     })
     @ResponseStatus(HttpStatus.CREATED)
-    SendOrderMailResponseDTO send(@Valid @RequestBody SendOrderMailRequestDTO request);
+    ChefWelcomeMailResponseDTO send(@Valid @RequestBody ChefWelcomeMailRequestDTO request);
 }

@@ -5,8 +5,6 @@ spring:
     active: local
   datasource:
     url: jdbc:postgresql://localhost:5432/chef_mgmt_db
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: validate

@@ -1,6 +1,6 @@
 package en.sd.chefmgmt.config;
 
-import en.sd.chefmgmt.service.mail.OrderMailService;
+import en.sd.chefmgmt.service.mail.ChefMailService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,11 +22,11 @@ public class MailConfig implements EmbeddedValueResolverAware {
     }
 
     @Bean
-    public OrderMailService mailService(@Value("${chef-mgmt-mail.base-url}") String baseUrl) {
+    public ChefMailService chefMailService(@Value("${chef-mgmt-mail.base-url}") String baseUrl) {
         return HttpServiceProxyFactory
                 .builderFor(RestClientAdapter.create(RestClient.builder().baseUrl(baseUrl).build()))
                 .embeddedValueResolver(embeddedValueResolver)
                 .build()
-                .createClient(OrderMailService.class);
+                .createClient(ChefMailService.class);
     }
 }

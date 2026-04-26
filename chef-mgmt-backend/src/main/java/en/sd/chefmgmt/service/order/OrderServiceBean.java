@@ -7,15 +7,11 @@ import en.sd.chefmgmt.dto.order.OrderResponseDTO;
 import en.sd.chefmgmt.exception.DataNotFoundException;
 import en.sd.chefmgmt.exception.ExceptionCode;
 import en.sd.chefmgmt.mapper.OrderMapper;
-import en.sd.chefmgmt.mapper.SendOrderMailRequestMapper;
 import en.sd.chefmgmt.model.chef.ChefEntity;
-import en.sd.chefmgmt.model.mail.SendOrderMailRequestDTO;
-import en.sd.chefmgmt.model.mail.SendOrderMailResponseDTO;
 import en.sd.chefmgmt.model.order.OrderEntity;
 import en.sd.chefmgmt.repository.chef.ChefRepository;
 import en.sd.chefmgmt.repository.order.OrderRepository;
 import en.sd.chefmgmt.repository.order.OrderSpecification;
-import en.sd.chefmgmt.service.mail.OrderMailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,8 +29,6 @@ public class OrderServiceBean implements OrderService {
     private final OrderRepository orderRepository;
     private final ChefRepository chefRepository;
     private final OrderMapper orderMapper;
-    private final OrderMailService mailService;
-    private final SendOrderMailRequestMapper sendOrderMailRequestMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -83,21 +77,15 @@ public class OrderServiceBean implements OrderService {
     }
 
     @Override
-//    @Transactional
-    // With @Transactional, order saved won't be commited.
-    // chef-mgmt-mail won't find the order in database and mail won't be sent
-    // Will be fixed with another approach in next lab
+    @Transactional
     public OrderResponseDTO save(UUID chefId, OrderRequestDTO orderRequestDTO) {
         ChefEntity chefEntity = chefRepository.findById(chefId)
                 .orElseThrow(() -> new DataNotFoundException(ExceptionCode.CHEF_NOT_FOUND, chefId));
 
         OrderEntity toAdd = orderMapper.convertRequestDtoToEntity(orderRequestDTO, chefEntity);
         OrderEntity added = orderRepository.save(toAdd);
-        OrderResponseDTO response = orderMapper.convertEntityToResponseDto(added);
 
-        sendOrderMail(chefEntity.getId(), added.getId());
-
-        return response;
+        return orderMapper.convertEntityToResponseDto(added);
     }
 
     @Override
@@ -122,15 +110,5 @@ public class OrderServiceBean implements OrderService {
         }
 
         orderRepository.deleteById(id);
-    }
-
-    private void sendOrderMail(UUID chefId, UUID orderId) {
-        SendOrderMailRequestDTO mailRequest = sendOrderMailRequestMapper.toRequest(chefId, orderId);
-        try {
-            SendOrderMailResponseDTO mailResponse = mailService.sendOrderMail(mailRequest);
-            log.info("Order mail sent: order={} to={} status={}", orderId, mailResponse.to(), mailResponse.status());
-        } catch (Exception e) {
-            log.error("Order mail failed: order={} chef={}: {}", orderId, chefId, e.getMessage());
-        }
     }
 }

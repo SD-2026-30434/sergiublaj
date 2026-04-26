@@ -1,10 +1,10 @@
 spring:
   application:
     name: chef-mgmt-backend
+  profiles:
+    active: local
   datasource:
     url: jdbc:postgresql://localhost:5432/chef_mgmt_db
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: update
@@ -28,4 +28,4 @@ chef-mgmt-mail:
   base-url: http://localhost:8888/api
   paths:
     base: /mails/v1
-    orders: /orders
+    chefs: /chefs

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -19,6 +19,7 @@ export class ChefFormComponent implements OnInit, OnChanges {
 
   @Input() visible = false;
   @Input() chef: Chef | null = null;
+  @Input() loading = false;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() save = new EventEmitter<ChefRequest>();
 
@@ -28,8 +29,20 @@ export class ChefFormComponent implements OnInit, OnChanges {
     this.buildForm();
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!this.form) {
+      return;
+    }
+
+    if (changes['loading']) {
+      if (this.loading) {
+        this.form.disable({ emitEvent: false });
+      } else {
+        this.form.enable({ emitEvent: false });
+      }
+    }
+
+    if (!changes['chef']) {
       return;
     }
     if (!this.chef) {
@@ -46,7 +59,7 @@ export class ChefFormComponent implements OnInit, OnChanges {
   }
 
   onSubmit(): void {
-    if (!this.form.valid) {
+    if (!this.form.valid || this.loading) {
       return;
     }
 
@@ -57,11 +70,12 @@ export class ChefFormComponent implements OnInit, OnChanges {
       birthDate: value.birthDate instanceof Date ? value.birthDate.toISOString() : value.birthDate,
       rating: value.rating
     });
-    this.visible = false;
-    this.visibleChange.emit(false);
   }
 
   onCancel(): void {
+    if (this.loading) {
+      return;
+    }
     this.visible = false;
     this.visibleChange.emit(false);
   }

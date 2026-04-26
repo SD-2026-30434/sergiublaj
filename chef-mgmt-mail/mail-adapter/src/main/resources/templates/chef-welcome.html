@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Chef Management</title>
+</head>
+<body style="font-family: Arial, sans-serif; background:#f4f4f4; padding:24px; margin:0;">
+<div style="max-width:600px;margin:0 auto;background:#ffffff;padding:24px;border-radius:8px;">
+    <h2 style="color:#2c3e50;margin-top:0;">
+        Welcome aboard, <span th:text="${chef.name()}">Chef</span>!
+    </h2>
+
+    <p style="color:#34495e;">
+        Your chef profile has been created successfully. We are happy to have you in the Chef Management platform.
+    </p>
+
+    <h3 style="margin-top:24px;color:#34495e;">Your account</h3>
+    <ul style="padding-left:20px;">
+        <li><strong>Name:</strong> <span th:text="${chef.name()}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${chef.email()}"></span></li>
+    </ul>
+
+    <p style="margin-top:24px;color:#34495e;">
+        You will receive a notification each time a new order is placed for you.
+    </p>
+
+    <p style="margin-top:24px;color:#7f8c8d;font-size:12px;">
+        This is an automated message from chef-mgmt. Please do not reply.
+    </p>
+</div>
+</body>
+</html>

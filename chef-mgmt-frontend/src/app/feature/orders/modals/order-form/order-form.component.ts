@@ -19,7 +19,6 @@ export class OrderFormComponent implements OnInit, OnChanges {
 
   @Input() visible = false;
   @Input() order: Order | null = null;
-  @Input() loading = false;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() save = new EventEmitter<OrderRequest>();
 
@@ -32,14 +31,6 @@ export class OrderFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.form) {
       return;
-    }
-
-    if (changes['loading']) {
-      if (this.loading) {
-        this.form.disable({ emitEvent: false });
-      } else {
-        this.form.enable({ emitEvent: false });
-      }
     }
 
     if (!changes['order']) {
@@ -58,7 +49,7 @@ export class OrderFormComponent implements OnInit, OnChanges {
   }
 
   onSubmit(): void {
-    if (!this.form.valid || this.loading) {
+    if (!this.form.valid) {
       return;
     }
 
@@ -68,12 +59,11 @@ export class OrderFormComponent implements OnInit, OnChanges {
       totalPrice: value.totalPrice,
       orderedAt: value.orderedAt instanceof Date ? value.orderedAt.toISOString() : value.orderedAt
     });
+    this.visible = false;
+    this.visibleChange.emit(false);
   }
 
   onCancel(): void {
-    if (this.loading) {
-      return;
-    }
     this.visible = false;
     this.visibleChange.emit(false);
   }

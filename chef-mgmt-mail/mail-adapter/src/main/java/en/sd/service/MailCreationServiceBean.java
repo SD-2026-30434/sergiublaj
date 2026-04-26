@@ -13,6 +13,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 public class MailCreationServiceBean implements MailCreationService {
 
     private static final String ORDER_PLACED_TEMPLATE = "order-placed";
+    private static final String CHEF_WELCOME_TEMPLATE = "chef-welcome";
     private static final String CHEF_VAR = "chef";
     private static final String ORDER_VAR = "order";
 
@@ -25,5 +26,13 @@ public class MailCreationServiceBean implements MailCreationService {
         context.setVariable(ORDER_VAR, order);
 
         return templateEngine.process(ORDER_PLACED_TEMPLATE, context);
+    }
+
+    @Override
+    public String renderChefWelcome(Chef chef) {
+        Context context = new Context();
+        context.setVariable(CHEF_VAR, chef);
+
+        return templateEngine.process(CHEF_WELCOME_TEMPLATE, context);
     }
 }

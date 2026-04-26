@@ -1,0 +1,5 @@
+# Copy this file to application-local.yaml (gitignored) and fill in real credentials.
+spring:
+  datasource:
+    username: <your-postgres-username>
+    password: <your-postgres-password>
