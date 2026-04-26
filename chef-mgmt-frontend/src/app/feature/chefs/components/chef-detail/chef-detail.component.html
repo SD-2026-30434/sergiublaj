@@ -93,13 +93,13 @@
   <app-chef-form
     [(visible)]="chefFormVisible"
     [chef]="chef"
+    [loading]="chefFormLoading"
     (save)="onChefSave($event)"
   />
 
   <app-order-form
     [(visible)]="orderFormVisible"
     [order]="selectedOrder"
-    [loading]="orderFormLoading"
     (save)="onOrderSave($event)"
   />
 

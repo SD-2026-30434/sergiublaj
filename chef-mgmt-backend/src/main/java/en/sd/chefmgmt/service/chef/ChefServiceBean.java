@@ -9,10 +9,15 @@ import en.sd.chefmgmt.exception.DataNotFoundException;
 import en.sd.chefmgmt.exception.DuplicateDataException;
 import en.sd.chefmgmt.exception.ExceptionCode;
 import en.sd.chefmgmt.mapper.ChefMapper;
+import en.sd.chefmgmt.mapper.ChefWelcomeMailRequestMapper;
 import en.sd.chefmgmt.model.chef.ChefEntity;
+import en.sd.chefmgmt.model.mail.ChefWelcomeMailRequestDTO;
+import en.sd.chefmgmt.model.mail.ChefWelcomeMailResponseDTO;
 import en.sd.chefmgmt.repository.chef.ChefRepository;
 import en.sd.chefmgmt.repository.chef.ChefSpecification;
+import en.sd.chefmgmt.service.mail.ChefMailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,12 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ChefServiceBean implements ChefService {
 
     private final ChefRepository chefRepository;
     private final ChefMapper chefMapper;
+    private final ChefMailService chefMailService;
+    private final ChefWelcomeMailRequestMapper chefWelcomeMailRequestMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -55,7 +63,6 @@ public class ChefServiceBean implements ChefService {
     }
 
     @Override
-    @Transactional
     public ChefWithOrdersResponseDTO save(ChefRequestDTO chefRequestDTO) {
         if (chefRepository.existsByEmail(chefRequestDTO.email())) {
             throw new DuplicateDataException(ExceptionCode.EMAIL_TAKEN, chefRequestDTO.email());
@@ -63,8 +70,11 @@ public class ChefServiceBean implements ChefService {
 
         ChefEntity toAdd = chefMapper.convertRequestDtoToEntity(chefRequestDTO);
         ChefEntity added = chefRepository.save(toAdd);
+        ChefWithOrdersResponseDTO response = chefMapper.convertEntityToResponseDto(added);
 
-        return chefMapper.convertEntityToResponseDto(added);
+        sendChefWelcomeMail(added.getId());
+
+        return response;
     }
 
     @Override
@@ -90,5 +100,15 @@ public class ChefServiceBean implements ChefService {
         }
 
         chefRepository.deleteById(id);
+    }
+
+    private void sendChefWelcomeMail(UUID chefId) {
+        ChefWelcomeMailRequestDTO mailRequest = chefWelcomeMailRequestMapper.toRequest(chefId);
+        try {
+            ChefWelcomeMailResponseDTO mailResponse = chefMailService.sendChefWelcomeMail(mailRequest);
+            log.info("Chef welcome mail sent: chef={} to={} status={}", chefId, mailResponse.to(), mailResponse.status());
+        } catch (Exception e) {
+            log.error("Chef welcome mail failed: chef={}: {}", chefId, e.getMessage());
+        }
     }
 }

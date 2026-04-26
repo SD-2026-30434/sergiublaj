@@ -5,24 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6e3e948-9e8f-43d0-b9c0-c8f4c6387215" name="Changes" comment="added code for lab08">
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/chefs/components/chef-detail/chef-detail.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/components/order-list/order-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/components/order-list/order-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/components/order-list/order-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-frontend/src/app/feature/orders/components/order-list/order-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/model/domain/Chef.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/model/domain/Chef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/model/domain/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/model/domain/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/model/mail/OrderMailResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/model/mail/OrderMailResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/config/MailConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/config/MailConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/mapper/SendOrderMailRequestMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/mail/SendOrderMailRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/model/mail/SendOrderMailResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/chef/ChefServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/chef/ChefServiceBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/mail/OrderMailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/order/OrderServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/en/sd/chefmgmt/service/order/OrderServiceBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/application/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/application/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/application/src/main/resources/application-local.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/application/src/main/resources/application-local.yaml.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/application/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/application/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/service/mail/MailCreationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/core-api/src/main/java/en/sd/service/mail/MailCreationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/core-impl/src/main/java/en/sd/service/OrderMailServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/core-impl/src/main/java/en/sd/service/OrderMailServiceBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/java/en/sd/service/MailCreationServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/java/en/sd/service/MailCreationServiceBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/java/en/sd/service/MailSenderServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/java/en/sd/service/MailSenderServiceBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/java/en/sd/util/MailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/java/en/sd/util/MailUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/resources/templates/order-placed.html" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/mail-adapter/src/main/resources/templates/order-placed.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/persistence-adapter/src/main/java/en/sd/service/ChefServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/persistence-adapter/src/main/java/en/sd/service/ChefServiceBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/persistence-adapter/src/main/java/en/sd/service/OrderServiceBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/persistence-adapter/src/main/java/en/sd/service/OrderServiceBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/controller/mail/OrderMailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/controller/mail/OrderMailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/controller/mail/OrderMailControllerBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/controller/mail/OrderMailControllerBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mail/SendOrderMailRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mail/SendOrderMailRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mail/SendOrderMailResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mail/SendOrderMailResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../chef-mgmt-mail/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/controller/mail/OrderMailController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/controller/mail/OrderMailControllerBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mail/SendOrderMailRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mail/SendOrderMailResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../chef-mgmt-mail/rest-adapter/src/main/java/en/sd/model/mapper/OrderMailResultMapper.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +193,7 @@
       <workItem from="1776841758659" duration="608000" />
       <workItem from="1776849153458" duration="617000" />
       <workItem from="1777103819730" duration="12000" />
-      <workItem from="1777223039444" duration="2565000" />
+      <workItem from="1777223039444" duration="7601000" />
     </task>
     <task id="LOCAL-00001" summary="fixed n + 1">
       <option name="closed" value="true" />

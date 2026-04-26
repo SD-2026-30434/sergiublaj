@@ -60,6 +60,7 @@
 <app-chef-form
   [(visible)]="formVisible"
   [chef]="selectedChef"
+  [loading]="formLoading"
   (save)="onSave($event)"
 />
 

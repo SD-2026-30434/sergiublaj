@@ -1,0 +1,8 @@
+# Copy this file to application-local.yaml (gitignored) and fill in real credentials.
+spring:
+  datasource:
+    username: <your-postgres-username>
+    password: <your-postgres-password>
+  rabbitmq:
+    username: <your-rabbitmq-username>
+    password: <your-rabbitmq-password>

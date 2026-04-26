@@ -5,12 +5,13 @@ spring:
     active: local
   datasource:
     url: jdbc:postgresql://localhost:5432/chef_mgmt_db
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+  rabbitmq:
+    host: localhost
+    port: 5672
 server:
   port: 8888
   servlet:
@@ -18,3 +19,7 @@ server:
 app:
   mail:
     from: noreply@chefmgmt.com
+chef-mgmt:
+  messaging:
+    order-mail:
+      queue: chef-mgmt.order-mail.queue

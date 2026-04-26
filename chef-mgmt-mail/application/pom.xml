@@ -37,6 +37,10 @@
             <groupId>en.sd</groupId>
             <artifactId>mail-adapter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>en.sd</groupId>
+            <artifactId>messaging-adapter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

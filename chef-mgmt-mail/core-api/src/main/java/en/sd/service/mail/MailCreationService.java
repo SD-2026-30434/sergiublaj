@@ -1,9 +1,10 @@
 package en.sd.service.mail;
 
-import en.sd.model.domain.Chef;
-import en.sd.model.domain.Order;
+import en.sd.model.mail.MailType;
+
+import java.util.Map;
 
 public interface MailCreationService {
 
-    String renderOrderPlaced(Chef chef, Order order);
+    String render(MailType type, Map<String, Object> variables);
 }

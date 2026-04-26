@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { AppRoutes } from '../../../../core/models/app-routes.enum';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -36,6 +36,7 @@ export class ChefListComponent extends BaseListComponent {
   totalElements = 0;
   chefs: Chef[] = [];
   formVisible = false;
+  formLoading = false;
   selectedChef: Chef | null = null;
   deleteModalVisible = false;
   chefToDelete: Chef | null = null;
@@ -59,11 +60,14 @@ export class ChefListComponent extends BaseListComponent {
     const chefFunction = isUpdate
       ? this.chefService.update(this.selectedChef!.id, request)
       : this.chefService.create(request);
+    this.formLoading = true;
     chefFunction.pipe(
       tap(() => {
         this.toast.showSuccess(isUpdate ? 'Chef updated' : 'Chef created');
+        this.formVisible = false;
         this.loadData();
-      })
+      }),
+      finalize(() => this.formLoading = false)
     ).subscribe();
   }
 
