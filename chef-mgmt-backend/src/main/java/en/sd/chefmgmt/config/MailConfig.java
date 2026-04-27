@@ -16,11 +16,22 @@ public class MailConfig implements EmbeddedValueResolverAware {
 
     private StringValueResolver embeddedValueResolver;
 
+    /**
+     * Captures Spring's {@link StringValueResolver} so it can later be passed to the
+     * {@link HttpServiceProxyFactory}, enabling resolution of {@code ${...}} property
+     * placeholders in {@link ChefMailService} annotations.
+     */
     @Override
     public void setEmbeddedValueResolver(@NonNull StringValueResolver resolver) {
         this.embeddedValueResolver = resolver;
     }
 
+    /**
+     * Creates a {@link ChefMailService} HTTP client proxy that targets the mail service at the
+     * configured {@code chef-mgmt-mail.base-url}. Uses Spring's {@link HttpServiceProxyFactory}
+     * with a {@link RestClient}-backed adapter, and wires in the embedded value resolver so that
+     * property placeholders in the {@code ChefMailService} interface annotations are resolved.
+     */
     @Bean
     public ChefMailService chefMailService(@Value("${chef-mgmt-mail.base-url}") String baseUrl) {
         return HttpServiceProxyFactory
