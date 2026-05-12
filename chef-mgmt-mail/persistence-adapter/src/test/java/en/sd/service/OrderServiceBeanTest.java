@@ -1,8 +1,7 @@
 package en.sd.service;
 
-import en.sd.entity.OrderEntity;
+import en.sd.TestFixtures;
 import en.sd.mapper.OrderMapper;
-import en.sd.model.domain.Order;
 import en.sd.model.exception.DataNotFoundException;
 import en.sd.model.exception.ExceptionCode;
 import en.sd.repository.OrderRepository;
@@ -12,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,18 +35,19 @@ class OrderServiceBeanTest {
     void givenOrderEntityExists_whenGetById_thenReturnsMappedDomainOrder() {
         // given
         final var id = UUID.randomUUID();
-        final var entity = new OrderEntity(id, "Pizza", 12.5, ZonedDateTime.now(), null);
-        final var domain = new Order(id, "Pizza", 12.5, entity.getOrderedAt(), UUID.randomUUID());
-        when(orderRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(orderMapper.toDomain(entity)).thenReturn(domain);
+        final var chef = TestFixtures.chefEntity();
+        final var request = TestFixtures.orderEntity(id, chef);
+        final var expected = TestFixtures.order(id, chef.getId());
+        when(orderRepository.findById(id)).thenReturn(Optional.of(request));
+        when(orderMapper.toDomain(request)).thenReturn(expected);
 
         // when
         final var result = orderServiceBean.getById(id);
 
         // then
-        assertThat(result).isSameAs(domain);
+        assertThat(result).isSameAs(expected);
         verify(orderRepository).findById(id);
-        verify(orderMapper).toDomain(entity);
+        verify(orderMapper).toDomain(request);
     }
 
     @Test

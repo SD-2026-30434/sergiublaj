@@ -1,8 +1,6 @@
 package en.sd.messaging.listener;
 
-import en.sd.messaging.event.OrderCreatedEvent;
-import en.sd.model.mail.OrderMailResult;
-import en.sd.model.mail.SendingStatus;
+import en.sd.messaging.TestFixtures;
 import en.sd.service.mail.OrderMailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,12 +31,11 @@ class OrderCreatedListenerTest {
         // given
         final var chefId = UUID.randomUUID();
         final var orderId = UUID.randomUUID();
-        final var event = new OrderCreatedEvent(chefId, orderId);
-        when(orderMailService.sendOrderMail(chefId, orderId))
-                .thenReturn(new OrderMailResult(UUID.randomUUID(), "to@example.com", SendingStatus.SUCCESS));
+        final var request = TestFixtures.orderCreatedEvent(chefId, orderId);
+        when(orderMailService.sendOrderMail(chefId, orderId)).thenReturn(TestFixtures.successOrderMailResult());
 
         // when
-        orderCreatedListener.onOrderCreated(event);
+        orderCreatedListener.onOrderCreated(request);
 
         // then
         verify(orderMailService).sendOrderMail(chefId, orderId);
@@ -48,12 +45,12 @@ class OrderCreatedListenerTest {
     @Test
     void givenOrderMailServiceThrows_whenOnOrderCreated_thenExceptionPropagates() {
         // given
-        final var event = new OrderCreatedEvent(UUID.randomUUID(), UUID.randomUUID());
+        final var request = TestFixtures.orderCreatedEvent();
         final var failure = new RuntimeException("downstream failure");
         when(orderMailService.sendOrderMail(any(), any())).thenThrow(failure);
 
         // when
-        final var thrown = catchThrowable(() -> orderCreatedListener.onOrderCreated(event));
+        final var thrown = catchThrowable(() -> orderCreatedListener.onOrderCreated(request));
 
         // then
         assertThat(thrown).isSameAs(failure);

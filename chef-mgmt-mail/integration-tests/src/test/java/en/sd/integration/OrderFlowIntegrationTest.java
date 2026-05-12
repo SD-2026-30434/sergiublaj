@@ -4,7 +4,7 @@ import com.icegreen.greenmail.junit5.GreenMailExtension;
 import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import en.sd.IntegrationTestApplication;
-import en.sd.messaging.event.OrderCreatedEvent;
+import en.sd.TestFixtures;
 import en.sd.messaging.listener.OrderCreatedListener;
 import en.sd.model.exception.DataNotFoundException;
 import en.sd.model.exception.ExceptionCode;
@@ -46,10 +46,10 @@ class OrderFlowIntegrationTest {
     @Test
     void givenSeededChefAndOrder_whenListenerReceivesEvent_thenMailIsSentToChef() throws Exception {
         // given
-        final var event = new OrderCreatedEvent(SEEDED_CHEF_ID, SEEDED_ORDER_ID);
+        final var request = TestFixtures.orderCreatedEvent(SEEDED_CHEF_ID, SEEDED_ORDER_ID);
 
         // when
-        orderCreatedListener.onOrderCreated(event);
+        orderCreatedListener.onOrderCreated(request);
 
         // then
         final var messages = greenMail.getReceivedMessages();
@@ -70,15 +70,15 @@ class OrderFlowIntegrationTest {
     @Test
     void givenChefMissing_whenListenerReceivesEvent_thenThrowsChefNotFoundAndSendsNoMail() {
         // given
-        final var event = new OrderCreatedEvent(UUID.randomUUID(), UUID.randomUUID());
+        final var request = TestFixtures.orderCreatedEvent(UUID.randomUUID(), UUID.randomUUID());
 
         // when
-        final var thrown = catchThrowable(() -> orderCreatedListener.onOrderCreated(event));
+        final var thrown = catchThrowable(() -> orderCreatedListener.onOrderCreated(request));
 
         // then
         assertThat(thrown)
                 .isInstanceOf(DataNotFoundException.class)
-                .hasMessageContaining(event.chefId().toString());
+                .hasMessageContaining(request.chefId().toString());
         assertThat(((DataNotFoundException) thrown).getCode()).isEqualTo(ExceptionCode.CHEF_NOT_FOUND.getCode());
         assertThat(greenMail.getReceivedMessages()).isEmpty();
     }
@@ -86,15 +86,15 @@ class OrderFlowIntegrationTest {
     @Test
     void givenChefExistsButOrderMissing_whenListenerReceivesEvent_thenThrowsOrderNotFoundAndSendsNoMail() {
         // given
-        final var event = new OrderCreatedEvent(SEEDED_CHEF_WITHOUT_ORDER_ID, UUID.randomUUID());
+        final var request = TestFixtures.orderCreatedEvent(SEEDED_CHEF_WITHOUT_ORDER_ID, UUID.randomUUID());
 
         // when
-        final var thrown = catchThrowable(() -> orderCreatedListener.onOrderCreated(event));
+        final var thrown = catchThrowable(() -> orderCreatedListener.onOrderCreated(request));
 
         // then
         assertThat(thrown)
                 .isInstanceOf(DataNotFoundException.class)
-                .hasMessageContaining(event.orderId().toString());
+                .hasMessageContaining(request.orderId().toString());
         assertThat(((DataNotFoundException) thrown).getCode()).isEqualTo(ExceptionCode.ORDER_NOT_FOUND.getCode());
         assertThat(greenMail.getReceivedMessages()).isEmpty();
     }

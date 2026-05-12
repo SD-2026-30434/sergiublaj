@@ -1,11 +1,9 @@
 package en.sd.service;
 
-import en.sd.model.domain.Chef;
-import en.sd.model.domain.Order;
+import en.sd.TestFixtures;
 import en.sd.model.exception.DataNotFoundException;
 import en.sd.model.exception.ExceptionCode;
 import en.sd.model.mail.MailType;
-import en.sd.model.mail.OrderMailResult;
 import en.sd.model.mail.SendingStatus;
 import en.sd.service.mail.MailCreationService;
 import en.sd.service.mail.MailSenderService;
@@ -17,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,10 +34,13 @@ class OrderMailServiceBeanTest {
 
     @Mock
     private ChefService chefService;
+
     @Mock
     private OrderService orderService;
+
     @Mock
     private MailCreationService mailCreationService;
+
     @Mock
     private MailSenderService mailSenderService;
 
@@ -52,10 +52,10 @@ class OrderMailServiceBeanTest {
         // given
         final var chefId = UUID.randomUUID();
         final var orderId = UUID.randomUUID();
-        final var chef = new Chef(chefId, "Mario", "mario@example.com");
-        final var order = new Order(orderId, "Pizza", 12.5, ZonedDateTime.now(), chefId);
+        final var chef = TestFixtures.chef(chefId);
+        final var order = TestFixtures.order(orderId, chefId);
         final var renderedHtml = "<html>order</html>";
-        final var expected = new OrderMailResult(null, chef.email(), SendingStatus.SUCCESS);
+        final var expected = TestFixtures.orderMailResult(chef.email(), SendingStatus.SUCCESS);
         when(chefService.getById(chefId)).thenReturn(chef);
         when(orderService.getById(orderId)).thenReturn(order);
         when(mailCreationService.render(eq(MailType.ORDER_PLACED), any())).thenReturn(renderedHtml);
@@ -78,9 +78,9 @@ class OrderMailServiceBeanTest {
         // given
         final var chefId = UUID.randomUUID();
         final var orderId = UUID.randomUUID();
-        final var chef = new Chef(chefId, "Mario", "mario@example.com");
-        final var order = new Order(orderId, "Pizza", 12.5, ZonedDateTime.now(), chefId);
-        final var expected = new OrderMailResult(null, chef.email(), SendingStatus.FAILURE);
+        final var chef = TestFixtures.chef(chefId);
+        final var order = TestFixtures.order(orderId, chefId);
+        final var expected = TestFixtures.orderMailResult(chef.email(), SendingStatus.FAILURE);
         when(chefService.getById(chefId)).thenReturn(chef);
         when(orderService.getById(orderId)).thenReturn(order);
         when(mailCreationService.render(eq(MailType.ORDER_PLACED), any())).thenReturn("<html/>");
@@ -119,7 +119,7 @@ class OrderMailServiceBeanTest {
         // given
         final var chefId = UUID.randomUUID();
         final var orderId = UUID.randomUUID();
-        final var chef = new Chef(chefId, "Mario", "mario@example.com");
+        final var chef = TestFixtures.chef(chefId);
         when(chefService.getById(chefId)).thenReturn(chef);
         when(orderService.getById(orderId))
                 .thenThrow(new DataNotFoundException(ExceptionCode.ORDER_NOT_FOUND, orderId));

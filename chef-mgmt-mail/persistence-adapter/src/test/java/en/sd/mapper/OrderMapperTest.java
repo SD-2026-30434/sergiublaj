@@ -1,12 +1,11 @@
 package en.sd.mapper;
 
-import en.sd.entity.ChefEntity;
+import en.sd.TestFixtures;
 import en.sd.entity.OrderEntity;
 import en.sd.model.domain.Order;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,28 +18,28 @@ class OrderMapperTest {
     void givenOrderEntityWithChef_whenToDomain_thenMapsAllFieldsAndChefId() {
         // given
         final var chefId = UUID.randomUUID();
-        final var chef = new ChefEntity(chefId, "Mario", "mario@example.com", ZonedDateTime.now().minusYears(30), 4.5);
         final var orderId = UUID.randomUUID();
-        final var orderedAt = ZonedDateTime.now();
-        final var entity = new OrderEntity(orderId, "Pizza", 12.5, orderedAt, chef);
-        final var expected = new Order(orderId, "Pizza", 12.5, orderedAt, chefId);
+        final var chef = TestFixtures.chefEntity(chefId);
+        final var request = TestFixtures.orderEntity(orderId, chef);
+        final var expected = new Order(
+                orderId, request.getItemName(), request.getTotalPrice(), request.getOrderedAt(), chefId);
 
         // when
-        final var domain = orderMapper.toDomain(entity);
+        final var result = orderMapper.toDomain(request);
 
         // then
-        assertThat(domain).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void givenNullEntity_whenToDomain_thenReturnsNull() {
         // given
-        final OrderEntity entity = null;
+        final OrderEntity request = null;
 
         // when
-        final var domain = orderMapper.toDomain(entity);
+        final var result = orderMapper.toDomain(request);
 
         // then
-        assertThat(domain).isNull();
+        assertThat(result).isNull();
     }
 }
